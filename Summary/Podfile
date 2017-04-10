@@ -1,0 +1,13 @@
+platform :ios, '8.0'
+use_frameworks!
+
+target 'Summary' do
+    pod 'ReactiveObjC'
+    pod 'SDWebImage'
+    pod 'UITableView+FDTemplateLayoutCell'
+    pod 'Masonry'
+    pod 'MJRefresh'
+    pod 'MJExtension'
+end
+
+
