@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		2C3D8C2DCAA329A35CC91E87 /* Pods_Summary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20B97872FEA20056F38A45FC /* Pods_Summary.framework */; };
+		E012D3831E9DC07B00F2ADF0 /* ZFTextFiledViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3821E9DC07B00F2ADF0 /* ZFTextFiledViewController.m */; };
+		E012D3861E9DCEA400F2ADF0 /* ZFTextFiledEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3851E9DCEA400F2ADF0 /* ZFTextFiledEditView.m */; };
+		E012D38A1E9DF9F300F2ADF0 /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3891E9DF9F300F2ADF0 /* UITextView+Placeholder.m */; };
+		E012D3911E9E088400F2ADF0 /* ZFRACViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3901E9E088400F2ADF0 /* ZFRACViewController.m */; };
+		E012D3981E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3971E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.m */; };
+		E012D39C1E9E148500F2ADF0 /* ZFPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D39B1E9E148500F2ADF0 /* ZFPhotoViewController.m */; };
+		E012D39F1E9E1C1400F2ADF0 /* ZFAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D39E1E9E1C1400F2ADF0 /* ZFAsset.m */; };
+		E012D3A51E9E233400F2ADF0 /* ZFPhotoHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3A41E9E233400F2ADF0 /* ZFPhotoHeadView.m */; };
+		E012D3A71E9E248A00F2ADF0 /* ZFPhotoBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E012D3A61E9E248A00F2ADF0 /* ZFPhotoBundle.bundle */; };
+		E012D3AA1E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3A91E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m */; };
 		E03E678C1E9B4F4F00C47580 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E678B1E9B4F4F00C47580 /* main.m */; };
 		E03E678F1E9B4F4F00C47580 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E678E1E9B4F4F00C47580 /* AppDelegate.m */; };
 		E03E67921E9B4F4F00C47580 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E67911E9B4F4F00C47580 /* ViewController.m */; };
@@ -19,9 +29,12 @@
 		E03E67C01E9B513200C47580 /* ChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E67BF1E9B513200C47580 /* ChangeViewController.m */; };
 		E03E67CA1E9B5B9400C47580 /* ZFCollectionLayoutViewContollerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E67C91E9B5B9400C47580 /* ZFCollectionLayoutViewContollerViewController.m */; };
 		E03E67D01E9B5C3300C47580 /* ZFBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E67CF1E9B5C3300C47580 /* ZFBaseViewController.m */; };
-		E03E67D41E9B5D0100C47580 /* WaterLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E67D31E9B5D0100C47580 /* WaterLayout.m */; };
+		E03E67D41E9B5D0100C47580 /* WaterFallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E67D31E9B5D0100C47580 /* WaterFallLayout.m */; };
 		E03E67D61E9B5DD200C47580 /* 1.plist in Resources */ = {isa = PBXBuildFile; fileRef = E03E67D51E9B5DD200C47580 /* 1.plist */; };
 		E03E67D91E9B5E0400C47580 /* ZFCollectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E67D81E9B5E0400C47580 /* ZFCollectModel.m */; };
+		E066B7E21E9C9D55001667F7 /* ZFCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E066B7E11E9C9D55001667F7 /* ZFCollectionViewCell.m */; };
+		E066B7E51E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E066B7E41E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m */; };
+		E066B7E81E9CCC17001667F7 /* ScrollLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E066B7E71E9CCC17001667F7 /* ScrollLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +58,25 @@
 		20B97872FEA20056F38A45FC /* Pods_Summary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Summary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		957A2974018A01D12D8EE81E /* Pods-Summary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Summary.release.xcconfig"; path = "Pods/Target Support Files/Pods-Summary/Pods-Summary.release.xcconfig"; sourceTree = "<group>"; };
 		B3103098D5785AFE8093AD13 /* Pods-Summary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Summary.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Summary/Pods-Summary.debug.xcconfig"; sourceTree = "<group>"; };
+		E012D3811E9DC07B00F2ADF0 /* ZFTextFiledViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFTextFiledViewController.h; sourceTree = "<group>"; };
+		E012D3821E9DC07B00F2ADF0 /* ZFTextFiledViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFTextFiledViewController.m; sourceTree = "<group>"; };
+		E012D3841E9DCEA400F2ADF0 /* ZFTextFiledEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFTextFiledEditView.h; sourceTree = "<group>"; };
+		E012D3851E9DCEA400F2ADF0 /* ZFTextFiledEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFTextFiledEditView.m; sourceTree = "<group>"; };
+		E012D3881E9DF9F300F2ADF0 /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
+		E012D3891E9DF9F300F2ADF0 /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
+		E012D38F1E9E088400F2ADF0 /* ZFRACViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFRACViewController.h; sourceTree = "<group>"; };
+		E012D3901E9E088400F2ADF0 /* ZFRACViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFRACViewController.m; sourceTree = "<group>"; };
+		E012D3961E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPhotoBrowerViewController.h; sourceTree = "<group>"; };
+		E012D3971E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPhotoBrowerViewController.m; sourceTree = "<group>"; };
+		E012D39A1E9E148500F2ADF0 /* ZFPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPhotoViewController.h; sourceTree = "<group>"; };
+		E012D39B1E9E148500F2ADF0 /* ZFPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPhotoViewController.m; sourceTree = "<group>"; };
+		E012D39D1E9E1C1400F2ADF0 /* ZFAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFAsset.h; sourceTree = "<group>"; };
+		E012D39E1E9E1C1400F2ADF0 /* ZFAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFAsset.m; sourceTree = "<group>"; };
+		E012D3A31E9E233300F2ADF0 /* ZFPhotoHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPhotoHeadView.h; sourceTree = "<group>"; };
+		E012D3A41E9E233400F2ADF0 /* ZFPhotoHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPhotoHeadView.m; sourceTree = "<group>"; };
+		E012D3A61E9E248A00F2ADF0 /* ZFPhotoBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZFPhotoBundle.bundle; sourceTree = "<group>"; };
+		E012D3A81E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPhotoCollectionViewCell.h; sourceTree = "<group>"; };
+		E012D3A91E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		E03E67871E9B4F4F00C47580 /* Summary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Summary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E03E678B1E9B4F4F00C47580 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E03E678D1E9B4F4F00C47580 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -69,11 +101,17 @@
 		E03E67CE1E9B5C3300C47580 /* ZFBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFBaseViewController.h; sourceTree = "<group>"; };
 		E03E67CF1E9B5C3300C47580 /* ZFBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFBaseViewController.m; sourceTree = "<group>"; };
 		E03E67D11E9B5C8300C47580 /* Summary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Summary.h; sourceTree = "<group>"; };
-		E03E67D21E9B5D0100C47580 /* WaterLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterLayout.h; sourceTree = "<group>"; };
-		E03E67D31E9B5D0100C47580 /* WaterLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterLayout.m; sourceTree = "<group>"; };
+		E03E67D21E9B5D0100C47580 /* WaterFallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterFallLayout.h; sourceTree = "<group>"; };
+		E03E67D31E9B5D0100C47580 /* WaterFallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterFallLayout.m; sourceTree = "<group>"; };
 		E03E67D51E9B5DD200C47580 /* 1.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = 1.plist; sourceTree = "<group>"; };
 		E03E67D71E9B5E0400C47580 /* ZFCollectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCollectModel.h; sourceTree = "<group>"; };
 		E03E67D81E9B5E0400C47580 /* ZFCollectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCollectModel.m; sourceTree = "<group>"; };
+		E066B7E01E9C9D55001667F7 /* ZFCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCollectionViewCell.h; sourceTree = "<group>"; };
+		E066B7E11E9C9D55001667F7 /* ZFCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCollectionViewCell.m; sourceTree = "<group>"; };
+		E066B7E31E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCollectionWaterFallViewController.h; sourceTree = "<group>"; };
+		E066B7E41E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCollectionWaterFallViewController.m; sourceTree = "<group>"; };
+		E066B7E61E9CCC17001667F7 /* ScrollLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollLayout.h; sourceTree = "<group>"; };
+		E066B7E71E9CCC17001667F7 /* ScrollLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +149,133 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E012D37D1E9DC05A00F2ADF0 /* VC2 */ = {
+			isa = PBXGroup;
+			children = (
+				E012D37E1E9DC05A00F2ADF0 /* Contoller */,
+				E012D37F1E9DC05A00F2ADF0 /* Model */,
+				E012D3801E9DC05A00F2ADF0 /* View */,
+			);
+			path = VC2;
+			sourceTree = "<group>";
+		};
+		E012D37E1E9DC05A00F2ADF0 /* Contoller */ = {
+			isa = PBXGroup;
+			children = (
+				E012D3811E9DC07B00F2ADF0 /* ZFTextFiledViewController.h */,
+				E012D3821E9DC07B00F2ADF0 /* ZFTextFiledViewController.m */,
+			);
+			path = Contoller;
+			sourceTree = "<group>";
+		};
+		E012D37F1E9DC05A00F2ADF0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E012D3801E9DC05A00F2ADF0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E012D3841E9DCEA400F2ADF0 /* ZFTextFiledEditView.h */,
+				E012D3851E9DCEA400F2ADF0 /* ZFTextFiledEditView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E012D3871E9DF9DF00F2ADF0 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				E012D3881E9DF9F300F2ADF0 /* UITextView+Placeholder.h */,
+				E012D3891E9DF9F300F2ADF0 /* UITextView+Placeholder.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		E012D38B1E9E084200F2ADF0 /* VC3 */ = {
+			isa = PBXGroup;
+			children = (
+				E012D38C1E9E084200F2ADF0 /* Contoller */,
+				E012D38D1E9E084200F2ADF0 /* Model */,
+				E012D38E1E9E084200F2ADF0 /* View */,
+			);
+			path = VC3;
+			sourceTree = "<group>";
+		};
+		E012D38C1E9E084200F2ADF0 /* Contoller */ = {
+			isa = PBXGroup;
+			children = (
+				E012D38F1E9E088400F2ADF0 /* ZFRACViewController.h */,
+				E012D3901E9E088400F2ADF0 /* ZFRACViewController.m */,
+			);
+			path = Contoller;
+			sourceTree = "<group>";
+		};
+		E012D38D1E9E084200F2ADF0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E012D38E1E9E084200F2ADF0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E012D3921E9E141A00F2ADF0 /* VC4 */ = {
+			isa = PBXGroup;
+			children = (
+				E012D3991E9E147100F2ADF0 /* PhotoSDk */,
+				E012D3931E9E141A00F2ADF0 /* Contoller */,
+				E012D3941E9E141A00F2ADF0 /* Model */,
+				E012D3951E9E141A00F2ADF0 /* View */,
+			);
+			path = VC4;
+			sourceTree = "<group>";
+		};
+		E012D3931E9E141A00F2ADF0 /* Contoller */ = {
+			isa = PBXGroup;
+			children = (
+				E012D3961E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.h */,
+				E012D3971E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.m */,
+			);
+			path = Contoller;
+			sourceTree = "<group>";
+		};
+		E012D3941E9E141A00F2ADF0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E012D3951E9E141A00F2ADF0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E012D3991E9E147100F2ADF0 /* PhotoSDk */ = {
+			isa = PBXGroup;
+			children = (
+				E012D39A1E9E148500F2ADF0 /* ZFPhotoViewController.h */,
+				E012D39B1E9E148500F2ADF0 /* ZFPhotoViewController.m */,
+				E012D39D1E9E1C1400F2ADF0 /* ZFAsset.h */,
+				E012D39E1E9E1C1400F2ADF0 /* ZFAsset.m */,
+				E012D3A31E9E233300F2ADF0 /* ZFPhotoHeadView.h */,
+				E012D3A41E9E233400F2ADF0 /* ZFPhotoHeadView.m */,
+				E012D3A81E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.h */,
+				E012D3A91E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m */,
+				E012D3A61E9E248A00F2ADF0 /* ZFPhotoBundle.bundle */,
+			);
+			path = PhotoSDk;
+			sourceTree = "<group>";
+		};
 		E03E677E1E9B4F4F00C47580 = {
 			isa = PBXGroup;
 			children = (
@@ -145,10 +310,14 @@
 				E03E67BE1E9B513200C47580 /* ChangeViewController.h */,
 				E03E67BF1E9B513200C47580 /* ChangeViewController.m */,
 				E03E67C41E9B5B6D00C47580 /* VC1 */,
+				E012D37D1E9DC05A00F2ADF0 /* VC2 */,
+				E012D38B1E9E084200F2ADF0 /* VC3 */,
+				E012D3921E9E141A00F2ADF0 /* VC4 */,
 				E03E67931E9B4F4F00C47580 /* Main.storyboard */,
 				E03E67961E9B4F4F00C47580 /* Assets.xcassets */,
 				E03E67981E9B4F4F00C47580 /* LaunchScreen.storyboard */,
 				E03E679B1E9B4F4F00C47580 /* Info.plist */,
+				E012D3871E9DF9DF00F2ADF0 /* Category */,
 				E03E678A1E9B4F4F00C47580 /* Supporting Files */,
 			);
 			path = Summary;
@@ -198,6 +367,8 @@
 				E03E67D51E9B5DD200C47580 /* 1.plist */,
 				E03E67C81E9B5B9400C47580 /* ZFCollectionLayoutViewContollerViewController.h */,
 				E03E67C91E9B5B9400C47580 /* ZFCollectionLayoutViewContollerViewController.m */,
+				E066B7E31E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.h */,
+				E066B7E41E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m */,
 			);
 			path = Contoller;
 			sourceTree = "<group>";
@@ -214,8 +385,12 @@
 		E03E67C71E9B5B6D00C47580 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				E03E67D21E9B5D0100C47580 /* WaterLayout.h */,
-				E03E67D31E9B5D0100C47580 /* WaterLayout.m */,
+				E03E67D21E9B5D0100C47580 /* WaterFallLayout.h */,
+				E03E67D31E9B5D0100C47580 /* WaterFallLayout.m */,
+				E066B7E61E9CCC17001667F7 /* ScrollLayout.h */,
+				E066B7E71E9CCC17001667F7 /* ScrollLayout.m */,
+				E066B7E01E9C9D55001667F7 /* ZFCollectionViewCell.h */,
+				E066B7E11E9C9D55001667F7 /* ZFCollectionViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -340,6 +515,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E012D3A71E9E248A00F2ADF0 /* ZFPhotoBundle.bundle in Resources */,
 				E03E679A1E9B4F4F00C47580 /* LaunchScreen.storyboard in Resources */,
 				E03E67971E9B4F4F00C47580 /* Assets.xcassets in Resources */,
 				E03E67D61E9B5DD200C47580 /* 1.plist in Resources */,
@@ -417,13 +593,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				E03E67921E9B4F4F00C47580 /* ViewController.m in Sources */,
+				E012D38A1E9DF9F300F2ADF0 /* UITextView+Placeholder.m in Sources */,
+				E012D3981E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.m in Sources */,
+				E012D3861E9DCEA400F2ADF0 /* ZFTextFiledEditView.m in Sources */,
+				E012D3911E9E088400F2ADF0 /* ZFRACViewController.m in Sources */,
 				E03E678F1E9B4F4F00C47580 /* AppDelegate.m in Sources */,
 				E03E67D91E9B5E0400C47580 /* ZFCollectModel.m in Sources */,
+				E066B7E21E9C9D55001667F7 /* ZFCollectionViewCell.m in Sources */,
 				E03E67CA1E9B5B9400C47580 /* ZFCollectionLayoutViewContollerViewController.m in Sources */,
-				E03E67D41E9B5D0100C47580 /* WaterLayout.m in Sources */,
+				E012D39C1E9E148500F2ADF0 /* ZFPhotoViewController.m in Sources */,
+				E066B7E81E9CCC17001667F7 /* ScrollLayout.m in Sources */,
+				E03E67D41E9B5D0100C47580 /* WaterFallLayout.m in Sources */,
+				E012D39F1E9E1C1400F2ADF0 /* ZFAsset.m in Sources */,
 				E03E67D01E9B5C3300C47580 /* ZFBaseViewController.m in Sources */,
 				E03E67C01E9B513200C47580 /* ChangeViewController.m in Sources */,
 				E03E678C1E9B4F4F00C47580 /* main.m in Sources */,
+				E012D3831E9DC07B00F2ADF0 /* ZFTextFiledViewController.m in Sources */,
+				E012D3A51E9E233400F2ADF0 /* ZFPhotoHeadView.m in Sources */,
+				E066B7E51E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m in Sources */,
+				E012D3AA1E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,6 +765,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ./Summary/Summary.pch;
 				INFOPLIST_FILE = Summary/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = linzaifei.Summary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -592,6 +781,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ./Summary/Summary.pch;
 				INFOPLIST_FILE = Summary/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = linzaifei.Summary;
 				PRODUCT_NAME = "$(TARGET_NAME)";

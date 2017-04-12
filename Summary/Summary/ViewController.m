@@ -10,6 +10,9 @@
 #import "ChangeViewController.h"
 
 #import "ZFCollectionLayoutViewContollerViewController.h"
+#import "ZFTextFiledViewController.h"
+#import "ZFRACViewController.h"
+#import "ZFPhotoBrowerViewController.h"
 
 @interface ViewController ()
 
@@ -27,14 +30,27 @@
     ChangeViewController *changeViewController = [[ChangeViewController alloc] init];
     changeViewController.dataArr = @[@"CollectionLayout布局",@"textfield封装",@"RAC登录",@"图片浏览",@"星星视图",@"链式编程",@"相册",@"表情键盘",@"iOS模态  PUSH",@"iOS蓝牙 wifi",@"3d touch",@"指纹解锁",@"微博详情优化"];
     [self.navigationController pushViewController:changeViewController animated:YES];
+    @weakify(self);
     changeViewController.didSelectCellBlock = ^(NSArray *dataArr ,NSInteger index){
+        @strongify(self);
         switch (index) {
             case 0:{
                 ZFCollectionLayoutViewContollerViewController *VC = [[ZFCollectionLayoutViewContollerViewController alloc] init];
                 
                 [self.navigationController pushViewController:VC animated:YES];
             }break;
-                
+            case 1:{
+                ZFTextFiledViewController *VC = [[ZFTextFiledViewController alloc] init];
+                [self.navigationController pushViewController:VC animated:YES];
+            }break;
+            case 2:{
+                ZFRACViewController *VC = [[ZFRACViewController alloc] init];
+                [self.navigationController pushViewController:VC animated:YES];
+            }break;
+            case 3:{
+                ZFPhotoBrowerViewController *VC = [[ZFPhotoBrowerViewController alloc] init];
+                [self.navigationController pushViewController:VC animated:YES];
+            }break;
             default:
                 break;
         }

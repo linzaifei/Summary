@@ -8,15 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@class WaterLayout;
+@class WaterFallLayout;
 
 @protocol ZFWaterFallDelegate <NSObject>
 
--(CGFloat)getWaterLayout:(WaterLayout *)waterFallLayout WithItemWidth:(CGFloat)itemWidth WithItemIndexPath:(NSIndexPath *)indexPath;
+@required
+-(CGFloat)getWaterFallLayout:(WaterFallLayout *)waterFallLayout WithItemWidth:(CGFloat)itemWidth WithItemIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
-@interface WaterLayout : UICollectionViewLayout
+@interface WaterFallLayout : UICollectionViewLayout
 
 /*!
  * 类方法布局
@@ -48,6 +49,16 @@
  * section与collectionView的间距，默认是（0，0，0，0）
  */
 @property(assign,nonatomic)UIEdgeInsets sectionInset;
+
+/*!
+ *  同时设置间距
+ *
+ *  @param columnSpacing 列间距
+ *  @param rowSpacing    行间距
+ *  @param sectionInset section与collectionView的间距
+ */
+-(void)setColumnSpacing:(NSInteger)columnSpacing WithRowSpacing:(NSInteger)rowSpacing WithSectionInset:(UIEdgeInsets)sectionInset;
+
 
 
 @property(weak,nonatomic)id<ZFWaterFallDelegate> delegate;

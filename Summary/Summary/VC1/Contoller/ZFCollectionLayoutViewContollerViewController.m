@@ -7,61 +7,61 @@
 //
 
 #import "ZFCollectionLayoutViewContollerViewController.h"
-#import "ZFCollectModel.h"
-#import "WaterLayout.h"
+#import "ZFCollectionWaterFallViewController.h"
 
-@interface ZFCollectionLayoutViewContollerViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
-@property(strong,nonatomic)NSMutableArray *dataArr;
-@property(strong,nonatomic)UICollectionView *collectionView;
+@interface ZFCollectionLayoutViewContollerViewController ()<UITableViewDelegate,UITableViewDataSource>
+@property(strong,nonatomic)UITableView *tableView;
+
+@property(strong,nonatomic)NSArray *dataArr;
 @end
 
 @implementation ZFCollectionLayoutViewContollerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.dataArr = [ZFCollectModel getDataWithPath:@"1.plist"];
-    
     [self setUI];
+    self.dataArr = @[@"普通布局",@"瀑布流",@"滑动布局"];
 }
 
 -(void)setUI{
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumLineSpacing = 5;
-    layout.minimumInteritemSpacing = 5;
-    CGFloat width = (kScreenWidth - 4 * 5 ) / 3.0;
-    layout.itemSize = CGSizeMake(width, width);
-    
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
-    self.collectionView.allowsMultipleSelection = YES;//
-    [self.view addSubview:self.collectionView];
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([UICollectionViewCell class])];
-    
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_collectionView)]];
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_collectionView)]];
-    
-}
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 3;
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
 }
 
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 20;
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.dataArr.count;
 }
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([UICollectionViewCell class]) forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor redColor];
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
+    
+    cell.textLabel.font = [UIFont systemFontOfSize:15];
+    cell.textLabel.text = self.dataArr[indexPath.row];
     return cell;
 }
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(0, 5, 0, 5);
-}
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    ZFCollectionWaterFallViewController *waterFallVC = [[ZFCollectionWaterFallViewController alloc] init];
+    waterFallVC.title = self.dataArr[indexPath.row];
+    switch (indexPath.row) {
+        case 0:
+            waterFallVC.type = CollectionLayoutTypeNone;
+            break;
+        case 1:
+            waterFallVC.type = CollectionLayoutTypeWater;
+            break;
+        case 2:
+            waterFallVC.type = CollectionLayoutTypeScroll;
+            break;
+            
+        default:
+            break;
+    }
+    [self.navigationController pushViewController:waterFallVC animated:YES];
+}
 
 
 
