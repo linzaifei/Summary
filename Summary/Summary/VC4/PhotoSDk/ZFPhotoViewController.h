@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class PHAsset;
+@protocol ZFPhotoPickerViewControllerDelegate;
 @interface ZFPhotoViewController : UIViewController
 /*!
  * 排显示数目 默认 3
@@ -29,5 +30,27 @@
  */
 @property(assign,nonatomic)UIEdgeInsets sectionInset;
 
+/*!
+ * 最大选择数量 默认9 
+ */
+@property(assign,nonatomic)NSInteger maxCount;
+
+/*!
+ * 选中的照片
+ */
+@property(strong,nonatomic)NSArray<PHAsset *>*selectItems;
+
+@property (nonatomic,weak) id<ZFPhotoPickerViewControllerDelegate> delegate;
+
 
 @end
+
+
+
+@protocol ZFPhotoPickerViewControllerDelegate <NSObject>
+
+- (void)photoPickerViewControllerTapCameraAction:(ZFPhotoViewController *)pickerViewController;
+- (void)photoPickerViewController:(ZFPhotoViewController *)pickerViewController didSelectPhotos:(NSArray<PHAsset *> *)photos;
+
+@end
+

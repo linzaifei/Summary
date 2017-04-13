@@ -14,6 +14,8 @@
 @interface ZFPhotoViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property(strong,nonatomic)UICollectionView *collectionView;
 @property(strong,nonatomic)NSMutableArray *dataArr;
+@property(strong,nonatomic)NSMutableArray <PHAsset *>*seletedPhotos;
+@property(strong,nonatomic)NSMutableDictionary *selectedAssetsDic;
 @end
 
 @implementation ZFPhotoViewController
@@ -29,12 +31,14 @@
         self.columnSpacing = 5;
         self.rowSpacing = 5;
         self.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
+        self.maxCount = 9;
     }
     return self;
 }
 
 -(void)setNavi{
     ZFPhotoHeadView *photoHeadView = [ZFPhotoHeadView new];
+    photoHeadView.barTintColor = [UIColor brownColor];
     photoHeadView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:photoHeadView];
     
@@ -52,7 +56,18 @@
     self.collectionView.dataSource = self;
     [self.view addSubview:self.collectionView];
     [self.collectionView registerClass:[ZFPhotoCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([ZFPhotoCollectionViewCell class])];
+   
+    __weak ZFPhotoViewController *ws = self;
+    photoHeadView.cancelBlock = ^(){
+        [ws dismissViewControllerAnimated:YES completion:NULL];
+    };
+    photoHeadView.chooseBlock = ^(){
+        if ([ws.delegate respondsToSelector:@selector(photoPickerViewController:didSelectPhotos:)]) {
+            [ws.delegate photoPickerViewController:ws didSelectPhotos:[ws.seletedPhotos copy]];
+        }
+    };
     
+
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[photoHeadView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_collectionView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[photoHeadView(==64)]-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView,_collectionView)]];
@@ -91,20 +106,22 @@
     // 获得某个相簿中的所有PHAsset对象
     PHFetchResult<PHAsset *> * assets = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
     
+    [self.dataArr removeAllObjects];
+    UIImage *cameraImage = [UIImage imageNamed:[@"ZFPhotoBundle.bundle" stringByAppendingPathComponent:@"AssetsCamera.png"]];
+    [cameraImage resizableImageWithCapInsets:UIEdgeInsetsMake(1, 1, 1, 1)];
+    [self.dataArr addObject:cameraImage];
     /*
      synchronous：指定请求是否同步执行。
      resizeMode：对请求的图像怎样缩放。有三种选择：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
      deliveryMode：图像质量。有三种值：Opportunistic，在速度与质量中均衡；HighQualityFormat，不管花费多长时间，提供高质量图像；FastFormat，以最快速度提供好的质量。
      这个属性只有在 synchronous 为 true 时有效。
      normalizedCropRect：用于对原始尺寸的图像进行裁剪，基于比例坐标。只在 resizeMode 为 Exact 时有效。
-     
      */
     __weak ZFPhotoViewController *ws = self;
     [assets enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [self.dataArr addObject:obj];
     }];
     [self.collectionView reloadData];
-  
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -113,10 +130,52 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ZFPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ZFPhotoCollectionViewCell class]) forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor redColor];
+    id data = self.dataArr[indexPath.item];
+    [cell zf_setAssest:data];
     
-    cell.asset = self.dataArr[indexPath.item];
+    BOOL isSelected = NO;
+    if ([data isKindOfClass:[PHAsset class]]) {
+        PHAsset *asset = (PHAsset *)data;
+        if ([self.selectedAssetsDic valueForKey:asset.localIdentifier]) {
+            isSelected = YES;
+        }
+    }
+    cell.isSelect = isSelected;
+    
+    __weak ZFPhotoViewController *ws = self;
+    __weak ZFPhotoCollectionViewCell *weakCell = cell;
+    cell.btnSelectBlock = ^(PHAsset *asset, BOOL isSelect) {
+        NSString *urlKey = asset.localIdentifier;
+        if ([self.selectedAssetsDic valueForKey:urlKey]) {
+            weakCell.isSelect = NO;
+            [self.seletedPhotos removeObject:self.selectedAssetsDic[urlKey]];
+            [self.selectedAssetsDic removeObjectForKey:urlKey];
+        }else {
+            if (self.seletedPhotos.count>=self.maxCount) {
+//                 [RemindView showViewWithTitle:[NSString stringWithFormat:@"%@%lu", NSLocalizedString(@"最多选择", nil), (unsigned long)self.maxCount] location:LocationTypeMIDDLE];
+                return;
+            }
+            weakCell.isSelect = YES;
+            [ws.selectedAssetsDic setObject:asset forKey:urlKey];
+            [ws.seletedPhotos addObject:asset];
+        }
+
+    };
     return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+
+    
+}
+
+-(void)setSelectItems:(NSArray<PHAsset *> *)selectItems{
+    for (PHAsset *asset in selectItems) {
+        if (asset) {
+            [self.selectedAssetsDic setValue:asset forKey:asset.localIdentifier];
+        }
+        [self.seletedPhotos addObject:asset];
+    }
 }
 
 
@@ -126,8 +185,19 @@
     }
     return _dataArr;
 }
+-(NSMutableArray <PHAsset *>*)seletedPhotos{
+    if (_seletedPhotos == nil) {
+        _seletedPhotos = [NSMutableArray array];
+    }
+    return _seletedPhotos;
+}
 
-
+- (NSMutableDictionary *)selectedAssetsDic {
+    if (_selectedAssetsDic == nil) {
+        _selectedAssetsDic = [NSMutableDictionary dictionary];
+    }
+    return _selectedAssetsDic;
+}
 
 #pragma mark  --- 相册获取参考数据
 //获取自定义相册簿 （自己创建的相册）
@@ -178,7 +248,9 @@
  */
 
 
-
+-(void)dealloc{
+    NSLog(@"销毁 %s",__FUNCTION__);
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

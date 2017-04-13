@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class PHAsset;
 @interface ZFAsset : NSObject
 @property(strong,nonatomic)UIImage *image;
 @property(copy,nonatomic)NSString *imgPath;
 @property(copy,nonatomic)NSString *imgName;
 
+@property(strong,nonatomic)PHAsset *asset;
 @end

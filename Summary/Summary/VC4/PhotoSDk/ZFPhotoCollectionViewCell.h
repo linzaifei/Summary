@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 @class PHAsset;
+
+
 @interface ZFPhotoCollectionViewCell : UICollectionViewCell
 
-@property(strong,nonatomic) PHAsset *asset;
+-(void)zf_setAssest:(id)data;
+
+@property(copy,nonatomic)void(^btnSelectBlock)(PHAsset *asset,BOOL isSelect);
+
+@property(assign,nonatomic)BOOL isSelect;
+
 @end

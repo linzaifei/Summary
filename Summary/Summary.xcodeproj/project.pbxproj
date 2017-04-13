@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2C3D8C2DCAA329A35CC91E87 /* Pods_Summary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20B97872FEA20056F38A45FC /* Pods_Summary.framework */; };
+		E010AF9F1E9F1CBC00C09A0F /* ZFBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = E010AF9E1E9F1CBC00C09A0F /* ZFBtn.m */; };
+		E010AFA21E9F54E700C09A0F /* ZFSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = E010AFA11E9F54E700C09A0F /* ZFSelectView.m */; };
+		E010AFA51E9F57D700C09A0F /* ZFSelectPublishCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E010AFA41E9F57D700C09A0F /* ZFSelectPublishCell.m */; };
 		E012D3831E9DC07B00F2ADF0 /* ZFTextFiledViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3821E9DC07B00F2ADF0 /* ZFTextFiledViewController.m */; };
 		E012D3861E9DCEA400F2ADF0 /* ZFTextFiledEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3851E9DCEA400F2ADF0 /* ZFTextFiledEditView.m */; };
 		E012D38A1E9DF9F300F2ADF0 /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3891E9DF9F300F2ADF0 /* UITextView+Placeholder.m */; };
@@ -58,6 +61,12 @@
 		20B97872FEA20056F38A45FC /* Pods_Summary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Summary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		957A2974018A01D12D8EE81E /* Pods-Summary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Summary.release.xcconfig"; path = "Pods/Target Support Files/Pods-Summary/Pods-Summary.release.xcconfig"; sourceTree = "<group>"; };
 		B3103098D5785AFE8093AD13 /* Pods-Summary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Summary.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Summary/Pods-Summary.debug.xcconfig"; sourceTree = "<group>"; };
+		E010AF9D1E9F1CBC00C09A0F /* ZFBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFBtn.h; sourceTree = "<group>"; };
+		E010AF9E1E9F1CBC00C09A0F /* ZFBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFBtn.m; sourceTree = "<group>"; };
+		E010AFA01E9F54E700C09A0F /* ZFSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFSelectView.h; sourceTree = "<group>"; };
+		E010AFA11E9F54E700C09A0F /* ZFSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFSelectView.m; sourceTree = "<group>"; };
+		E010AFA31E9F57D700C09A0F /* ZFSelectPublishCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFSelectPublishCell.h; sourceTree = "<group>"; };
+		E010AFA41E9F57D700C09A0F /* ZFSelectPublishCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFSelectPublishCell.m; sourceTree = "<group>"; };
 		E012D3811E9DC07B00F2ADF0 /* ZFTextFiledViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFTextFiledViewController.h; sourceTree = "<group>"; };
 		E012D3821E9DC07B00F2ADF0 /* ZFTextFiledViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFTextFiledViewController.m; sourceTree = "<group>"; };
 		E012D3841E9DCEA400F2ADF0 /* ZFTextFiledEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFTextFiledEditView.h; sourceTree = "<group>"; };
@@ -256,6 +265,10 @@
 		E012D3951E9E141A00F2ADF0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E010AFA01E9F54E700C09A0F /* ZFSelectView.h */,
+				E010AFA11E9F54E700C09A0F /* ZFSelectView.m */,
+				E010AFA31E9F57D700C09A0F /* ZFSelectPublishCell.h */,
+				E010AFA41E9F57D700C09A0F /* ZFSelectPublishCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -272,6 +285,8 @@
 				E012D3A81E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.h */,
 				E012D3A91E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m */,
 				E012D3A61E9E248A00F2ADF0 /* ZFPhotoBundle.bundle */,
+				E010AF9D1E9F1CBC00C09A0F /* ZFBtn.h */,
+				E010AF9E1E9F1CBC00C09A0F /* ZFBtn.m */,
 			);
 			path = PhotoSDk;
 			sourceTree = "<group>";
@@ -594,6 +609,7 @@
 			files = (
 				E03E67921E9B4F4F00C47580 /* ViewController.m in Sources */,
 				E012D38A1E9DF9F300F2ADF0 /* UITextView+Placeholder.m in Sources */,
+				E010AFA21E9F54E700C09A0F /* ZFSelectView.m in Sources */,
 				E012D3981E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.m in Sources */,
 				E012D3861E9DCEA400F2ADF0 /* ZFTextFiledEditView.m in Sources */,
 				E012D3911E9E088400F2ADF0 /* ZFRACViewController.m in Sources */,
@@ -601,6 +617,7 @@
 				E03E67D91E9B5E0400C47580 /* ZFCollectModel.m in Sources */,
 				E066B7E21E9C9D55001667F7 /* ZFCollectionViewCell.m in Sources */,
 				E03E67CA1E9B5B9400C47580 /* ZFCollectionLayoutViewContollerViewController.m in Sources */,
+				E010AF9F1E9F1CBC00C09A0F /* ZFBtn.m in Sources */,
 				E012D39C1E9E148500F2ADF0 /* ZFPhotoViewController.m in Sources */,
 				E066B7E81E9CCC17001667F7 /* ScrollLayout.m in Sources */,
 				E03E67D41E9B5D0100C47580 /* WaterFallLayout.m in Sources */,
@@ -610,6 +627,7 @@
 				E03E678C1E9B4F4F00C47580 /* main.m in Sources */,
 				E012D3831E9DC07B00F2ADF0 /* ZFTextFiledViewController.m in Sources */,
 				E012D3A51E9E233400F2ADF0 /* ZFPhotoHeadView.m in Sources */,
+				E010AFA51E9F57D700C09A0F /* ZFSelectPublishCell.m in Sources */,
 				E066B7E51E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m in Sources */,
 				E012D3AA1E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m in Sources */,
 			);
