@@ -67,7 +67,6 @@
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
         [self.selectView.photoCollectionView deleteItemsAtIndexPaths:@[indexPath]];
     }
- 
 }
 //点击添加照片
 -(void)publishViewClickAddPhoto:(ZFSelectView *)publishView{
@@ -91,6 +90,8 @@
 ///////////
 - (void)photoPickerViewControllerTapCameraAction:(ZFPhotoViewController *)pickerViewController{
 
+    
+    
 }
 - (void)photoPickerViewController:(ZFPhotoViewController *)pickerViewController didSelectPhotos:(NSArray<PHAsset *> *)photos{
     self.dataArr = [NSMutableArray arrayWithArray:photos];

@@ -17,7 +17,6 @@
 		E012D3911E9E088400F2ADF0 /* ZFRACViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3901E9E088400F2ADF0 /* ZFRACViewController.m */; };
 		E012D3981E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3971E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.m */; };
 		E012D39C1E9E148500F2ADF0 /* ZFPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D39B1E9E148500F2ADF0 /* ZFPhotoViewController.m */; };
-		E012D39F1E9E1C1400F2ADF0 /* ZFAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D39E1E9E1C1400F2ADF0 /* ZFAsset.m */; };
 		E012D3A51E9E233400F2ADF0 /* ZFPhotoHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3A41E9E233400F2ADF0 /* ZFPhotoHeadView.m */; };
 		E012D3A71E9E248A00F2ADF0 /* ZFPhotoBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E012D3A61E9E248A00F2ADF0 /* ZFPhotoBundle.bundle */; };
 		E012D3AA1E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E012D3A91E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m */; };
@@ -35,6 +34,13 @@
 		E03E67D41E9B5D0100C47580 /* WaterFallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E67D31E9B5D0100C47580 /* WaterFallLayout.m */; };
 		E03E67D61E9B5DD200C47580 /* 1.plist in Resources */ = {isa = PBXBuildFile; fileRef = E03E67D51E9B5DD200C47580 /* 1.plist */; };
 		E03E67D91E9B5E0400C47580 /* ZFCollectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E03E67D81E9B5E0400C47580 /* ZFCollectModel.m */; };
+		E05480D71EA05C0D0092F6AA /* RemindView.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480D61EA05C0D0092F6AA /* RemindView.m */; };
+		E05480DA1EA062350092F6AA /* ZFCamareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480D91EA062350092F6AA /* ZFCamareViewController.m */; };
+		E05480E11EA06B6E0092F6AA /* ZFPresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480E01EA06B6E0092F6AA /* ZFPresentViewController.m */; };
+		E05480E41EA06B7F0092F6AA /* ZFShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480E31EA06B7F0092F6AA /* ZFShowViewController.m */; };
+		E05480E71EA072330092F6AA /* CustomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480E61EA072330092F6AA /* CustomTransition.m */; };
+		E05480EA1EA0B46C0092F6AA /* ZFPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480E91EA0B46C0092F6AA /* ZFPresentationController.m */; };
+		E05480ED1EA0BB520092F6AA /* ZFPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480EC1EA0BB520092F6AA /* ZFPopViewController.m */; };
 		E066B7E21E9C9D55001667F7 /* ZFCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E066B7E11E9C9D55001667F7 /* ZFCollectionViewCell.m */; };
 		E066B7E51E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E066B7E41E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m */; };
 		E066B7E81E9CCC17001667F7 /* ScrollLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E066B7E71E9CCC17001667F7 /* ScrollLayout.m */; };
@@ -79,8 +85,6 @@
 		E012D3971E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPhotoBrowerViewController.m; sourceTree = "<group>"; };
 		E012D39A1E9E148500F2ADF0 /* ZFPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPhotoViewController.h; sourceTree = "<group>"; };
 		E012D39B1E9E148500F2ADF0 /* ZFPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPhotoViewController.m; sourceTree = "<group>"; };
-		E012D39D1E9E1C1400F2ADF0 /* ZFAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFAsset.h; sourceTree = "<group>"; };
-		E012D39E1E9E1C1400F2ADF0 /* ZFAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFAsset.m; sourceTree = "<group>"; };
 		E012D3A31E9E233300F2ADF0 /* ZFPhotoHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPhotoHeadView.h; sourceTree = "<group>"; };
 		E012D3A41E9E233400F2ADF0 /* ZFPhotoHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPhotoHeadView.m; sourceTree = "<group>"; };
 		E012D3A61E9E248A00F2ADF0 /* ZFPhotoBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZFPhotoBundle.bundle; sourceTree = "<group>"; };
@@ -115,6 +119,20 @@
 		E03E67D51E9B5DD200C47580 /* 1.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = 1.plist; sourceTree = "<group>"; };
 		E03E67D71E9B5E0400C47580 /* ZFCollectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCollectModel.h; sourceTree = "<group>"; };
 		E03E67D81E9B5E0400C47580 /* ZFCollectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCollectModel.m; sourceTree = "<group>"; };
+		E05480D51EA05C0D0092F6AA /* RemindView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemindView.h; sourceTree = "<group>"; };
+		E05480D61EA05C0D0092F6AA /* RemindView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemindView.m; sourceTree = "<group>"; };
+		E05480D81EA062350092F6AA /* ZFCamareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCamareViewController.h; sourceTree = "<group>"; };
+		E05480D91EA062350092F6AA /* ZFCamareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCamareViewController.m; sourceTree = "<group>"; };
+		E05480DF1EA06B6E0092F6AA /* ZFPresentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPresentViewController.h; sourceTree = "<group>"; };
+		E05480E01EA06B6E0092F6AA /* ZFPresentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPresentViewController.m; sourceTree = "<group>"; };
+		E05480E21EA06B7F0092F6AA /* ZFShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFShowViewController.h; sourceTree = "<group>"; };
+		E05480E31EA06B7F0092F6AA /* ZFShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFShowViewController.m; sourceTree = "<group>"; };
+		E05480E51EA072330092F6AA /* CustomTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTransition.h; sourceTree = "<group>"; };
+		E05480E61EA072330092F6AA /* CustomTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTransition.m; sourceTree = "<group>"; };
+		E05480E81EA0B46C0092F6AA /* ZFPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPresentationController.h; sourceTree = "<group>"; };
+		E05480E91EA0B46C0092F6AA /* ZFPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPresentationController.m; sourceTree = "<group>"; };
+		E05480EB1EA0BB520092F6AA /* ZFPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPopViewController.h; sourceTree = "<group>"; };
+		E05480EC1EA0BB520092F6AA /* ZFPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopViewController.m; sourceTree = "<group>"; };
 		E066B7E01E9C9D55001667F7 /* ZFCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCollectionViewCell.h; sourceTree = "<group>"; };
 		E066B7E11E9C9D55001667F7 /* ZFCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCollectionViewCell.m; sourceTree = "<group>"; };
 		E066B7E31E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCollectionWaterFallViewController.h; sourceTree = "<group>"; };
@@ -238,6 +256,7 @@
 		E012D3921E9E141A00F2ADF0 /* VC4 */ = {
 			isa = PBXGroup;
 			children = (
+				E05480D41EA05C0D0092F6AA /* RemindView */,
 				E012D3991E9E147100F2ADF0 /* PhotoSDk */,
 				E012D3931E9E141A00F2ADF0 /* Contoller */,
 				E012D3941E9E141A00F2ADF0 /* Model */,
@@ -278,8 +297,8 @@
 			children = (
 				E012D39A1E9E148500F2ADF0 /* ZFPhotoViewController.h */,
 				E012D39B1E9E148500F2ADF0 /* ZFPhotoViewController.m */,
-				E012D39D1E9E1C1400F2ADF0 /* ZFAsset.h */,
-				E012D39E1E9E1C1400F2ADF0 /* ZFAsset.m */,
+				E05480D81EA062350092F6AA /* ZFCamareViewController.h */,
+				E05480D91EA062350092F6AA /* ZFCamareViewController.m */,
 				E012D3A31E9E233300F2ADF0 /* ZFPhotoHeadView.h */,
 				E012D3A41E9E233400F2ADF0 /* ZFPhotoHeadView.m */,
 				E012D3A81E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.h */,
@@ -328,6 +347,7 @@
 				E012D37D1E9DC05A00F2ADF0 /* VC2 */,
 				E012D38B1E9E084200F2ADF0 /* VC3 */,
 				E012D3921E9E141A00F2ADF0 /* VC4 */,
+				E05480DB1EA06B570092F6AA /* VC5 */,
 				E03E67931E9B4F4F00C47580 /* Main.storyboard */,
 				E03E67961E9B4F4F00C47580 /* Assets.xcassets */,
 				E03E67981E9B4F4F00C47580 /* LaunchScreen.storyboard */,
@@ -406,6 +426,56 @@
 				E066B7E71E9CCC17001667F7 /* ScrollLayout.m */,
 				E066B7E01E9C9D55001667F7 /* ZFCollectionViewCell.h */,
 				E066B7E11E9C9D55001667F7 /* ZFCollectionViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E05480D41EA05C0D0092F6AA /* RemindView */ = {
+			isa = PBXGroup;
+			children = (
+				E05480D51EA05C0D0092F6AA /* RemindView.h */,
+				E05480D61EA05C0D0092F6AA /* RemindView.m */,
+			);
+			path = RemindView;
+			sourceTree = "<group>";
+		};
+		E05480DB1EA06B570092F6AA /* VC5 */ = {
+			isa = PBXGroup;
+			children = (
+				E05480DC1EA06B570092F6AA /* Contoller */,
+				E05480DD1EA06B570092F6AA /* Model */,
+				E05480DE1EA06B570092F6AA /* View */,
+			);
+			path = VC5;
+			sourceTree = "<group>";
+		};
+		E05480DC1EA06B570092F6AA /* Contoller */ = {
+			isa = PBXGroup;
+			children = (
+				E05480DF1EA06B6E0092F6AA /* ZFPresentViewController.h */,
+				E05480E01EA06B6E0092F6AA /* ZFPresentViewController.m */,
+				E05480E81EA0B46C0092F6AA /* ZFPresentationController.h */,
+				E05480E91EA0B46C0092F6AA /* ZFPresentationController.m */,
+				E05480E51EA072330092F6AA /* CustomTransition.h */,
+				E05480E61EA072330092F6AA /* CustomTransition.m */,
+				E05480E21EA06B7F0092F6AA /* ZFShowViewController.h */,
+				E05480E31EA06B7F0092F6AA /* ZFShowViewController.m */,
+				E05480EB1EA0BB520092F6AA /* ZFPopViewController.h */,
+				E05480EC1EA0BB520092F6AA /* ZFPopViewController.m */,
+			);
+			path = Contoller;
+			sourceTree = "<group>";
+		};
+		E05480DD1EA06B570092F6AA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E05480DE1EA06B570092F6AA /* View */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -616,17 +686,23 @@
 				E03E678F1E9B4F4F00C47580 /* AppDelegate.m in Sources */,
 				E03E67D91E9B5E0400C47580 /* ZFCollectModel.m in Sources */,
 				E066B7E21E9C9D55001667F7 /* ZFCollectionViewCell.m in Sources */,
+				E05480D71EA05C0D0092F6AA /* RemindView.m in Sources */,
 				E03E67CA1E9B5B9400C47580 /* ZFCollectionLayoutViewContollerViewController.m in Sources */,
 				E010AF9F1E9F1CBC00C09A0F /* ZFBtn.m in Sources */,
+				E05480DA1EA062350092F6AA /* ZFCamareViewController.m in Sources */,
 				E012D39C1E9E148500F2ADF0 /* ZFPhotoViewController.m in Sources */,
 				E066B7E81E9CCC17001667F7 /* ScrollLayout.m in Sources */,
 				E03E67D41E9B5D0100C47580 /* WaterFallLayout.m in Sources */,
-				E012D39F1E9E1C1400F2ADF0 /* ZFAsset.m in Sources */,
+				E05480E11EA06B6E0092F6AA /* ZFPresentViewController.m in Sources */,
+				E05480EA1EA0B46C0092F6AA /* ZFPresentationController.m in Sources */,
+				E05480E41EA06B7F0092F6AA /* ZFShowViewController.m in Sources */,
+				E05480ED1EA0BB520092F6AA /* ZFPopViewController.m in Sources */,
 				E03E67D01E9B5C3300C47580 /* ZFBaseViewController.m in Sources */,
 				E03E67C01E9B513200C47580 /* ChangeViewController.m in Sources */,
 				E03E678C1E9B4F4F00C47580 /* main.m in Sources */,
 				E012D3831E9DC07B00F2ADF0 /* ZFTextFiledViewController.m in Sources */,
 				E012D3A51E9E233400F2ADF0 /* ZFPhotoHeadView.m in Sources */,
+				E05480E71EA072330092F6AA /* CustomTransition.m in Sources */,
 				E010AFA51E9F57D700C09A0F /* ZFSelectPublishCell.m in Sources */,
 				E066B7E51E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m in Sources */,
 				E012D3AA1E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m in Sources */,

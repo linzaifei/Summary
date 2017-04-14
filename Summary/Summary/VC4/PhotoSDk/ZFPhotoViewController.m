@@ -8,14 +8,18 @@
 
 #import "ZFPhotoViewController.h"
 #import <Photos/Photos.h>
-#import "ZFAsset.h"
 #import "ZFPhotoHeadView.h"
 #import "ZFPhotoCollectionViewCell.h"
-@interface ZFPhotoViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+#import "RemindView.h"
+
+
+
+@interface ZFPhotoViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property(strong,nonatomic)UICollectionView *collectionView;
 @property(strong,nonatomic)NSMutableArray *dataArr;
 @property(strong,nonatomic)NSMutableArray <PHAsset *>*seletedPhotos;
 @property(strong,nonatomic)NSMutableDictionary *selectedAssetsDic;
+
 @end
 
 @implementation ZFPhotoViewController
@@ -66,7 +70,6 @@
             [ws.delegate photoPickerViewController:ws didSelectPhotos:[ws.seletedPhotos copy]];
         }
     };
-    
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[photoHeadView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_collectionView)]];
@@ -107,9 +110,7 @@
     PHFetchResult<PHAsset *> * assets = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
     
     [self.dataArr removeAllObjects];
-    UIImage *cameraImage = [UIImage imageNamed:[@"ZFPhotoBundle.bundle" stringByAppendingPathComponent:@"AssetsCamera.png"]];
-    [cameraImage resizableImageWithCapInsets:UIEdgeInsetsMake(1, 1, 1, 1)];
-    [self.dataArr addObject:cameraImage];
+
     /*
      synchronous：指定请求是否同步执行。
      resizeMode：对请求的图像怎样缩放。有三种选择：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
@@ -121,6 +122,11 @@
     [assets enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [self.dataArr addObject:obj];
     }];
+    
+    UIImage *cameraImage = [UIImage imageNamed:[@"ZFPhotoBundle.bundle" stringByAppendingPathComponent:@"AssetsCamera.png"]];
+    [cameraImage resizableImageWithCapInsets:UIEdgeInsetsMake(1, 1, 1, 1)];
+    [self.dataArr addObject:cameraImage];
+    
     [self.collectionView reloadData];
 }
 
@@ -130,7 +136,8 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ZFPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ZFPhotoCollectionViewCell class]) forIndexPath:indexPath];
-    id data = self.dataArr[indexPath.item];
+    NSInteger index = self.dataArr.count - indexPath.item - 1;
+    id data = self.dataArr[index];
     [cell zf_setAssest:data];
     
     BOOL isSelected = NO;
@@ -141,7 +148,6 @@
         }
     }
     cell.isSelect = isSelected;
-    
     __weak ZFPhotoViewController *ws = self;
     __weak ZFPhotoCollectionViewCell *weakCell = cell;
     cell.btnSelectBlock = ^(PHAsset *asset, BOOL isSelect) {
@@ -152,7 +158,7 @@
             [self.selectedAssetsDic removeObjectForKey:urlKey];
         }else {
             if (self.seletedPhotos.count>=self.maxCount) {
-//                 [RemindView showViewWithTitle:[NSString stringWithFormat:@"%@%lu", NSLocalizedString(@"最多选择", nil), (unsigned long)self.maxCount] location:LocationTypeMIDDLE];
+                [RemindView showViewWithTitle:[NSString stringWithFormat:@"%@%lu", NSLocalizedString(@"最多选择", nil), (unsigned long)self.maxCount] location:LocationTypeMIDDLE];
                 return;
             }
             weakCell.isSelect = YES;
@@ -165,7 +171,19 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-
+    id data = self.dataArr[indexPath.row];
+    if ([data isKindOfClass:[UIImage class]]) {
+    UIImagePickerController *pickerVC = [[UIImagePickerController alloc] init];
+    pickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    pickerVC.allowsEditing = YES;
+    pickerVC.delegate = self;
+    pickerVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:pickerVC animated:YES completion:NULL];
+        
+    }else{
+        PHAsset *asset = (PHAsset *)data;
+        
+    }
     
 }
 
