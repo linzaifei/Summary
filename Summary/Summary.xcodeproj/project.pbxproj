@@ -37,13 +37,14 @@
 		E05480D71EA05C0D0092F6AA /* RemindView.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480D61EA05C0D0092F6AA /* RemindView.m */; };
 		E05480DA1EA062350092F6AA /* ZFCamareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480D91EA062350092F6AA /* ZFCamareViewController.m */; };
 		E05480E11EA06B6E0092F6AA /* ZFPresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480E01EA06B6E0092F6AA /* ZFPresentViewController.m */; };
-		E05480E41EA06B7F0092F6AA /* ZFShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480E31EA06B7F0092F6AA /* ZFShowViewController.m */; };
-		E05480E71EA072330092F6AA /* CustomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480E61EA072330092F6AA /* CustomTransition.m */; };
-		E05480EA1EA0B46C0092F6AA /* ZFPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480E91EA0B46C0092F6AA /* ZFPresentationController.m */; };
-		E05480ED1EA0BB520092F6AA /* ZFPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E05480EC1EA0BB520092F6AA /* ZFPopViewController.m */; };
 		E066B7E21E9C9D55001667F7 /* ZFCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E066B7E11E9C9D55001667F7 /* ZFCollectionViewCell.m */; };
 		E066B7E51E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E066B7E41E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m */; };
 		E066B7E81E9CCC17001667F7 /* ScrollLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E066B7E71E9CCC17001667F7 /* ScrollLayout.m */; };
+		E080399E1EA4508800066E7F /* CustomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = E08039951EA4508800066E7F /* CustomTransition.m */; };
+		E080399F1EA4508800066E7F /* ZFPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E08039971EA4508800066E7F /* ZFPresentationController.m */; };
+		E08039A01EA4508800066E7F /* ZFShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E08039991EA4508800066E7F /* ZFShowViewController.m */; };
+		E08039A11EA4508800066E7F /* ZFPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E080399C1EA4508800066E7F /* ZFPopViewController.m */; };
+		E08039A41EA450A600066E7F /* ZFShowPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E08039A31EA450A600066E7F /* ZFShowPopViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,20 +126,22 @@
 		E05480D91EA062350092F6AA /* ZFCamareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCamareViewController.m; sourceTree = "<group>"; };
 		E05480DF1EA06B6E0092F6AA /* ZFPresentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPresentViewController.h; sourceTree = "<group>"; };
 		E05480E01EA06B6E0092F6AA /* ZFPresentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPresentViewController.m; sourceTree = "<group>"; };
-		E05480E21EA06B7F0092F6AA /* ZFShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFShowViewController.h; sourceTree = "<group>"; };
-		E05480E31EA06B7F0092F6AA /* ZFShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFShowViewController.m; sourceTree = "<group>"; };
-		E05480E51EA072330092F6AA /* CustomTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTransition.h; sourceTree = "<group>"; };
-		E05480E61EA072330092F6AA /* CustomTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTransition.m; sourceTree = "<group>"; };
-		E05480E81EA0B46C0092F6AA /* ZFPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPresentationController.h; sourceTree = "<group>"; };
-		E05480E91EA0B46C0092F6AA /* ZFPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPresentationController.m; sourceTree = "<group>"; };
-		E05480EB1EA0BB520092F6AA /* ZFPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPopViewController.h; sourceTree = "<group>"; };
-		E05480EC1EA0BB520092F6AA /* ZFPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopViewController.m; sourceTree = "<group>"; };
 		E066B7E01E9C9D55001667F7 /* ZFCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCollectionViewCell.h; sourceTree = "<group>"; };
 		E066B7E11E9C9D55001667F7 /* ZFCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCollectionViewCell.m; sourceTree = "<group>"; };
 		E066B7E31E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCollectionWaterFallViewController.h; sourceTree = "<group>"; };
 		E066B7E41E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCollectionWaterFallViewController.m; sourceTree = "<group>"; };
 		E066B7E61E9CCC17001667F7 /* ScrollLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollLayout.h; sourceTree = "<group>"; };
 		E066B7E71E9CCC17001667F7 /* ScrollLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollLayout.m; sourceTree = "<group>"; };
+		E08039941EA4508800066E7F /* CustomTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTransition.h; sourceTree = "<group>"; };
+		E08039951EA4508800066E7F /* CustomTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTransition.m; sourceTree = "<group>"; };
+		E08039961EA4508800066E7F /* ZFPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPresentationController.h; sourceTree = "<group>"; };
+		E08039971EA4508800066E7F /* ZFPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPresentationController.m; sourceTree = "<group>"; };
+		E08039981EA4508800066E7F /* ZFShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFShowViewController.h; sourceTree = "<group>"; };
+		E08039991EA4508800066E7F /* ZFShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFShowViewController.m; sourceTree = "<group>"; };
+		E080399B1EA4508800066E7F /* ZFPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPopViewController.h; sourceTree = "<group>"; };
+		E080399C1EA4508800066E7F /* ZFPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopViewController.m; sourceTree = "<group>"; };
+		E08039A21EA450A600066E7F /* ZFShowPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFShowPopViewController.h; sourceTree = "<group>"; };
+		E08039A31EA450A600066E7F /* ZFShowPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFShowPopViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,11 +302,11 @@
 				E012D39B1E9E148500F2ADF0 /* ZFPhotoViewController.m */,
 				E05480D81EA062350092F6AA /* ZFCamareViewController.h */,
 				E05480D91EA062350092F6AA /* ZFCamareViewController.m */,
-				E012D3A31E9E233300F2ADF0 /* ZFPhotoHeadView.h */,
-				E012D3A41E9E233400F2ADF0 /* ZFPhotoHeadView.m */,
+				E012D3A61E9E248A00F2ADF0 /* ZFPhotoBundle.bundle */,
 				E012D3A81E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.h */,
 				E012D3A91E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m */,
-				E012D3A61E9E248A00F2ADF0 /* ZFPhotoBundle.bundle */,
+				E012D3A31E9E233300F2ADF0 /* ZFPhotoHeadView.h */,
+				E012D3A41E9E233400F2ADF0 /* ZFPhotoHeadView.m */,
 				E010AF9D1E9F1CBC00C09A0F /* ZFBtn.h */,
 				E010AF9E1E9F1CBC00C09A0F /* ZFBtn.m */,
 			);
@@ -454,14 +457,9 @@
 			children = (
 				E05480DF1EA06B6E0092F6AA /* ZFPresentViewController.h */,
 				E05480E01EA06B6E0092F6AA /* ZFPresentViewController.m */,
-				E05480E81EA0B46C0092F6AA /* ZFPresentationController.h */,
-				E05480E91EA0B46C0092F6AA /* ZFPresentationController.m */,
-				E05480E51EA072330092F6AA /* CustomTransition.h */,
-				E05480E61EA072330092F6AA /* CustomTransition.m */,
-				E05480E21EA06B7F0092F6AA /* ZFShowViewController.h */,
-				E05480E31EA06B7F0092F6AA /* ZFShowViewController.m */,
-				E05480EB1EA0BB520092F6AA /* ZFPopViewController.h */,
-				E05480EC1EA0BB520092F6AA /* ZFPopViewController.m */,
+				E08039931EA4508800066E7F /* Modal */,
+				E080399A1EA4508800066E7F /* Pop */,
+				E080399D1EA4508800066E7F /* Push */,
 			);
 			path = Contoller;
 			sourceTree = "<group>";
@@ -478,6 +476,37 @@
 			children = (
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		E08039931EA4508800066E7F /* Modal */ = {
+			isa = PBXGroup;
+			children = (
+				E08039941EA4508800066E7F /* CustomTransition.h */,
+				E08039951EA4508800066E7F /* CustomTransition.m */,
+				E08039961EA4508800066E7F /* ZFPresentationController.h */,
+				E08039971EA4508800066E7F /* ZFPresentationController.m */,
+				E08039981EA4508800066E7F /* ZFShowViewController.h */,
+				E08039991EA4508800066E7F /* ZFShowViewController.m */,
+			);
+			path = Modal;
+			sourceTree = "<group>";
+		};
+		E080399A1EA4508800066E7F /* Pop */ = {
+			isa = PBXGroup;
+			children = (
+				E080399B1EA4508800066E7F /* ZFPopViewController.h */,
+				E080399C1EA4508800066E7F /* ZFPopViewController.m */,
+				E08039A21EA450A600066E7F /* ZFShowPopViewController.h */,
+				E08039A31EA450A600066E7F /* ZFShowPopViewController.m */,
+			);
+			path = Pop;
+			sourceTree = "<group>";
+		};
+		E080399D1EA4508800066E7F /* Push */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Push;
 			sourceTree = "<group>";
 		};
 		FDCF1BEEE3D45E2C09A11F9E /* Frameworks */ = {
@@ -678,6 +707,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E03E67921E9B4F4F00C47580 /* ViewController.m in Sources */,
+				E08039A01EA4508800066E7F /* ZFShowViewController.m in Sources */,
 				E012D38A1E9DF9F300F2ADF0 /* UITextView+Placeholder.m in Sources */,
 				E010AFA21E9F54E700C09A0F /* ZFSelectView.m in Sources */,
 				E012D3981E9E143C00F2ADF0 /* ZFPhotoBrowerViewController.m in Sources */,
@@ -694,18 +724,18 @@
 				E066B7E81E9CCC17001667F7 /* ScrollLayout.m in Sources */,
 				E03E67D41E9B5D0100C47580 /* WaterFallLayout.m in Sources */,
 				E05480E11EA06B6E0092F6AA /* ZFPresentViewController.m in Sources */,
-				E05480EA1EA0B46C0092F6AA /* ZFPresentationController.m in Sources */,
-				E05480E41EA06B7F0092F6AA /* ZFShowViewController.m in Sources */,
-				E05480ED1EA0BB520092F6AA /* ZFPopViewController.m in Sources */,
+				E080399F1EA4508800066E7F /* ZFPresentationController.m in Sources */,
+				E08039A11EA4508800066E7F /* ZFPopViewController.m in Sources */,
 				E03E67D01E9B5C3300C47580 /* ZFBaseViewController.m in Sources */,
 				E03E67C01E9B513200C47580 /* ChangeViewController.m in Sources */,
 				E03E678C1E9B4F4F00C47580 /* main.m in Sources */,
 				E012D3831E9DC07B00F2ADF0 /* ZFTextFiledViewController.m in Sources */,
 				E012D3A51E9E233400F2ADF0 /* ZFPhotoHeadView.m in Sources */,
-				E05480E71EA072330092F6AA /* CustomTransition.m in Sources */,
 				E010AFA51E9F57D700C09A0F /* ZFSelectPublishCell.m in Sources */,
 				E066B7E51E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m in Sources */,
 				E012D3AA1E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m in Sources */,
+				E080399E1EA4508800066E7F /* CustomTransition.m in Sources */,
+				E08039A41EA450A600066E7F /* ZFShowPopViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

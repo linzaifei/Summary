@@ -19,5 +19,5 @@
 @interface ZFCamareViewController : UIViewController
 
 @property(weak,nonatomic)id<CameraViewDelegate> cameraDelegate;
-
+@property(copy,nonatomic)void(^backBlock)();
 @end

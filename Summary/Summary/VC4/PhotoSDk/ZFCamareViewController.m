@@ -7,9 +7,9 @@
 //
 
 #import "ZFCamareViewController.h"
-
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "ZFPhotoHeadView.h"
 
 
 #define Flash_Width
@@ -53,189 +53,95 @@
  *  最后的缩放比例
  */
 @property(nonatomic,assign)CGFloat effectiveScale;
-
-/*!
- *  相机背景
- */
-@property(nonatomic,strong)UIView *backView;
-
-/*!
- *  TabBar
- */
-@property(nonatomic,strong)UIView *TakePhotoBackView;
-
 /*!
  *  显示却换摄像头 闪光灯
  */
 @property(nonatomic,strong)UIView *flashBackView;
 
-@property (nonatomic,strong)UIImageView *imageView;
-@property (nonatomic)UIImage *image;
-@property (nonatomic)UIButton *TakePhotoBtn;
-@property (nonatomic)UIView *focusView;
-
-@property (nonatomic,strong)UIImageView *UpImageView;
-@property (nonatomic,strong)UIImageView *DownImageView;
 
 
-//@property (nonatomic,strong)NSURL *imageUrl;
+/*!
+ *  相机背景
+ */
+//@property(nonatomic,strong)UIView *backView;
+
+//@property (nonatomic,strong)UIImageView *imageView;
+//@property (nonatomic)UIImage *image;
+//@property (nonatomic)UIButton *TakePhotoBtn;
+//@property (nonatomic)UIView *focusView;
+//@property(nonatomic,strong)UIView *TakePhotoBackView;
+//@property (nonatomic,strong)UIImageView *UpImageView;
+//@property (nonatomic,strong)UIImageView *DownImageView;
 
 @end
 
 @implementation ZFCamareViewController{
-    
     BOOL isUsingFrontFacingCamera;
-    
     NSData *_data;
     CFDictionaryRef _dicRef;
-    
 }
-
--(UIView *)flashBackView {
-    
-    if (_flashBackView == nil) {
-        
-        _flashBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth,FlashBackView_Height )];
-        _flashBackView.backgroundColor = [UIColor grayColor];
-        
-    }
-    
-    return _flashBackView;
-}
-
--(UIView *)backView {
-    
-    if (_backView == nil) {
-        
-        _backView = [[UIView alloc] initWithFrame:self.view.bounds];
-        _backView.layer.masksToBounds = YES;
-        
-    }
-    return _backView;
-    
-}
--(UIView *)TakePhotoBackView {
-    
-    if (_TakePhotoBackView == nil) {
-        
-        _TakePhotoBackView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - TakePhotoBackView_Height, kScreenWidth, TakePhotoBackView_Height)];
-        _TakePhotoBackView.backgroundColor = [UIColor grayColor];
-        
-    }
-    
-    return _TakePhotoBackView;
-}
-
 - (void)viewWillAppear:(BOOL)animated{
-    
     [super viewWillAppear:YES];
-    
     self.navigationController.navigationBar.hidden = YES;
-    
     if (self.session) {
-        
         [self.session startRunning];
     }
-    
     [self setUI];
-    
 }
-
 - (void)viewDidDisappear:(BOOL)animated{
-    
     [super viewDidDisappear:YES];
-    
     self.navigationController.navigationBar.hidden = NO;
-    
     if (self.session) {
-        
         [self.session stopRunning];
     }
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self Setting];
     [self initAVCaptureSession];
+    [self Setting];
     
     isUsingFrontFacingCamera = NO;
-    
     self.effectiveScale = self.beginGestureScale = 1.0f;
-    
-    [self performSelector:@selector(annimation) withObject:self afterDelay:1];
-    
+//    [self performSelector:@selector(annimation) withObject:self afterDelay:1];
 }
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark - 初始化设置
 -(void)Setting{
+    ZFCamareHeadView *camareHeadView = [ZFCamareHeadView new];
+    camareHeadView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:camareHeadView];
     
-    UIButton *BackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    ZFTakePhotoHeadView *takePhotoHeadView = [ZFTakePhotoHeadView new];
+    takePhotoHeadView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:takePhotoHeadView];
     
-    BackBtn.frame = CGRectMake(20,(self.flashBackView.frame.size.height - 30) / 2 + 5 , 50, 30);
+    __weak ZFCamareViewController *ws = self;
+    camareHeadView.cancelBlock = ^(){
+        [ws backAction];
+    };
+    camareHeadView.flashBlock = ^(){
+        [ws AutoFlash];
+    };
+    camareHeadView.changeBlock = ^(){
+        [ws chageCamera];
+    };
     
-    [BackBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [BackBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    /////------------布局
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[camareHeadView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(camareHeadView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[camareHeadView(==64)]" options:0 metrics:0 views:NSDictionaryOfVariableBindings(camareHeadView)]];
     
-    [self.flashBackView addSubview:BackBtn];
-    
-    UIButton *flashBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    flashBtn.frame = CGRectMake(80, (self.flashBackView.frame.size.height - PIC_Height) / 2 + 5, PIC_Width, PIC_Height);
-    
-    [flashBtn setTitle:@"闪" forState:UIControlStateNormal];
-    [flashBtn addTarget:self action:@selector(AutoFlash:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.flashBackView addSubview:flashBtn];
-    
-    UIButton *ChageCameraBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    ChageCameraBtn.frame = CGRectMake((kScreenWidth - PIC_Width - 30), (self.flashBackView.frame.size.height - PIC_Height) / 2 + 5, PIC_Width, PIC_Height);
-    
-    [ChageCameraBtn setTitle:@"切换" forState:UIControlStateNormal];
-    [ChageCameraBtn addTarget:self action:@selector(chageCamera) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.flashBackView addSubview:ChageCameraBtn];
-    
-    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    leftButton.frame = CGRectMake(50,(self.TakePhotoBackView.frame.size.height - leftButton_Height) / 2, leftButton_With, leftButton_Height);
-    [leftButton setTitle:@"取消" forState:UIControlStateNormal];
-    leftButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [leftButton addTarget:self action:@selector(cancle) forControlEvents:UIControlEventTouchUpInside];
-    [self.TakePhotoBackView addSubview:leftButton];
-    
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightButton.frame = CGRectMake((kScreenWidth - leftButton_With - 50),(self.TakePhotoBackView.frame.size.height - leftButton_Height) / 2, leftButton_With, leftButton_Height);
-    [rightButton setTitle:@"采用" forState:UIControlStateNormal];
-    rightButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [rightButton addTarget:self action:@selector(takePic) forControlEvents:UIControlEventTouchUpInside];
-    [self.TakePhotoBackView addSubview:rightButton];
-    
-    
-    
-    _TakePhotoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    _TakePhotoBtn.frame = CGRectMake((kScreenWidth - TakePhotoBtn_Width) / 2,(self.TakePhotoBackView.frame.size.height - TakePhotoBtn_Height) / 2, TakePhotoBtn_Width, TakePhotoBtn_Height);
-    
-    [_TakePhotoBtn setImage:[UIImage imageNamed:@"photograph"] forState:UIControlStateNormal];
-    [_TakePhotoBtn setImage:[UIImage imageNamed:@"photograph_Select"] forState:UIControlStateSelected];
-    [_TakePhotoBtn addTarget:self action:@selector(TakePhotoAction) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.TakePhotoBackView addSubview:_TakePhotoBtn];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[takePhotoHeadView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(takePhotoHeadView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[takePhotoHeadView(==130)]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(takePhotoHeadView)]];
     
 }
 
 #pragma mark private method
 - (void)initAVCaptureSession{
-    
     self.session = [[AVCaptureSession alloc] init];
-    
     NSError *error;
-    
     /*!
      *  捕获设备，通常是前置摄像头，后置摄像头，麦克风（音频输入）
      */
@@ -261,9 +167,7 @@
     
     //输出设置。AVVideoCodecJPEG   输出jpeg格式图片
     NSDictionary * outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecJPEG,AVVideoCodecKey, nil];
-    
     [self.stillImageOutput setOutputSettings:outputSettings];
-    
     if ([self.session canAddInput:self.videoInput]) {
         [self.session addInput:self.videoInput];
     }
@@ -279,20 +183,15 @@
      *  设置预览图层充满屏幕
      */
     self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    
     self.previewLayer.frame = self.view.bounds;// CGRectMake(0,self.flashBackView.height,kScreenWidth, kScreenHeight - self.TakePhotoBackView.height - self.flashBackView.height);
-    
-    [self.backView.layer addSublayer:self.previewLayer];
-    
-    [self.view addSubview:self.backView];
-    
-    [self.view addSubview:self.TakePhotoBackView];
-    [self.view addSubview:self.flashBackView];
+    [self.view.layer addSublayer:self.previewLayer];
+//    [self.view addSubview:self.backView];
+//    [self.view addSubview:self.TakePhotoBackView];
+//    [self.view addSubview:self.flashBackView];
     
 }
 
 - (AVCaptureVideoOrientation)avOrientationForDeviceOrientation:(UIDeviceOrientation)deviceOrientation {
-    
     AVCaptureVideoOrientation result = (AVCaptureVideoOrientation)deviceOrientation;
     if ( deviceOrientation == UIDeviceOrientationLandscapeLeft )
         result = AVCaptureVideoOrientationLandscapeRight;
@@ -303,14 +202,12 @@
 
 #pragma 创建手势
 - (void)setUpGesture{
-    
     UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     pinch.delegate = self;
-    [self.backView addGestureRecognizer:pinch];
+//    [self.backView addGestureRecognizer:pinch];
 }
 #pragma mark gestureRecognizer delegate
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
-{
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     if ( [gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]] ) {
         self.beginGestureScale = self.effectiveScale;
     }
@@ -321,62 +218,46 @@
 /*!
  *  开启关闭闪光灯
  */
--(void)AutoFlash:(UIButton *)sender{
-    
+-(void)AutoFlash{
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    
     //修改前必须先锁定
     [device lockForConfiguration:nil];
     //必须判定是否有闪光灯，否则如果没有闪光灯会崩溃
     if ([device hasFlash]) {
-        
         if (device.flashMode == AVCaptureFlashModeOff) {
             device.flashMode = AVCaptureFlashModeOn;
-            
-            [sender setTitle:@"On" forState:UIControlStateNormal];
+//            [sender setTitle:@"On" forState:UIControlStateNormal];
         } else if (device.flashMode == AVCaptureFlashModeOn) {
             device.flashMode = AVCaptureFlashModeAuto;
-            [sender setTitle:@"OFF" forState:UIControlStateNormal];
+//            [sender setTitle:@"OFF" forState:UIControlStateNormal];
         } else if (device.flashMode == AVCaptureFlashModeAuto) {
             device.flashMode = AVCaptureFlashModeOff;
-            [sender setTitle:@"Auto" forState:UIControlStateNormal];
+//            [sender setTitle:@"Auto" forState:UIControlStateNormal];
         }
         
     } else {
-        
         NSLog(@"设备不支持闪光灯");
     }
     [device unlockForConfiguration];
-    
-    
-    
 }
 /*!
  *  却换前后摄像头
  */
 -(void)chageCamera {
-    
     NSUInteger cameraCount = [[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo] count];
     if (cameraCount > 1) {
-        
         NSError *error;
-        
         CATransition *animation = [CATransition animation];
-        
         animation.duration = .5f;
-        
         animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        
         animation.type = @"oglFlip";
         AVCaptureDevice *newCamera = nil;
         AVCaptureDeviceInput *newInput = nil;
         AVCaptureDevicePosition position = [[_videoInput device] position];
-        
         if (position == AVCaptureDevicePositionFront){
             newCamera = [self cameraWithPosition:AVCaptureDevicePositionBack];
             animation.subtype = kCATransitionFromLeft;
-        }
-        else {
+        }else {
             newCamera = [self cameraWithPosition:AVCaptureDevicePositionFront];
             animation.subtype = kCATransitionFromRight;
         }
@@ -389,19 +270,15 @@
             if ([self.session canAddInput:newInput]) {
                 [self.session addInput:newInput];
                 self.videoInput = newInput;
-                
             } else {
                 [self.session addInput:self.videoInput];
             }
-            
             [self.session commitConfiguration];
             
         } else if (error) {
             NSLog(@"toggle carema failed, error = %@", error);
         }
-        
     }
-    
 }
 
 - (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition)position{
@@ -414,15 +291,11 @@
  *  拍照
  */
 -(void)TakePhotoAction{
-    
     AVCaptureConnection * videoConnection = [self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
     if (!videoConnection) {
         NSLog(@"take photo failed!");
         return;
     }
-    
-    
-    
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
         
         if (imageDataSampleBuffer == NULL) {
@@ -445,85 +318,63 @@
         _dicRef = attachments;
         
         
-        self.image = [UIImage imageWithData:imageData];
-        
-        [self.session stopRunning];
-        
-        self.imageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
-        [self.view insertSubview:_imageView belowSubview:_DownImageView];
-        self.imageView.layer.masksToBounds = YES;
-        self.imageView.image = _image;
-        NSLog(@"image size = %@",NSStringFromCGSize(self.image.size));
+//        self.image = [UIImage imageWithData:imageData];
+//        
+//        [self.session stopRunning];
+//        
+//        self.imageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
+//        [self.view insertSubview:_imageView belowSubview:_DownImageView];
+//        self.imageView.layer.masksToBounds = YES;
+//        self.imageView.image = _image;
+//        NSLog(@"image size = %@",NSStringFromCGSize(self.image.size));
         
     }];
     
 }
 
+//取消选中
 -(void)cancle {
-    
-    [self.imageView removeFromSuperview];
-    [self.session startRunning];
-    
+//    [self.imageView removeFromSuperview];
+//    [self.session startRunning];
 }
 
+//返回
 -(void)backAction{
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        _UpImageView.transform = CGAffineTransformIdentity;
-        _DownImageView.transform = CGAffineTransformIdentity;
-        
-    }];
-    
-    [self performSelector:@selector(dey) withObject:self afterDelay:0.4];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        _UpImageView.transform = CGAffineTransformIdentity;
+//        _DownImageView.transform = CGAffineTransformIdentity;
+//        
+//    }];
+    [self performSelector:@selector(dey) withObject:self afterDelay:1];
 }
 
 -(void)dey{
-    
-    [self dismissViewControllerAnimated:YES completion:NULL];
-    
+    if (self.backBlock) {
+        self.backBlock();
+    }
 }
 
 -(void)takePic {
-    
     __weak ZFCamareViewController *WeakSelf = self;
     ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    
-    
     [library writeImageDataToSavedPhotosAlbum:_data metadata:(__bridge id)
      _dicRef completionBlock:^(NSURL *assetURL, NSError *error) {
-         
          [library assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-             
-             
              if ([_cameraDelegate respondsToSelector:@selector(photoCapViewController:didFinishDismissWithPhotoImage:)]) {
-                 
                  [_cameraDelegate photoCapViewController:self didFinishDismissWithPhotoImage:asset];
                  
                  //                 NSLog(@"%@",asset);
                  
              }
-             
              [WeakSelf backAction];
-             
-             
-             
          } failureBlock:^(NSError *error) {
              
              
-             
-             
+
          }];
-         
      }];
-    
-    
-    
+   
 }
-
-
-
-
 
 //缩放手势 用于调整焦距
 - (void)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer{
@@ -534,7 +385,7 @@
     
     for ( i = 0; i < numTouches; ++i ) {
         
-        CGPoint location = [recognizer locationOfTouch:i inView:self.backView];
+        CGPoint location = [recognizer locationOfTouch:i inView:self.view];
         CGPoint convertedLocation = [self.previewLayer convertPoint:location fromLayer:self.previewLayer.superlayer];
         
         if ( ! [self.previewLayer containsPoint:convertedLocation] ) {
@@ -570,38 +421,63 @@
 }
 
 -(void)setUI {
+//    
+//    _UpImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, FlashBackView_Height, kScreenWidth, (kScreenHeight - FlashBackView_Height - TakePhotoBackView_Height) / 2)];
+//    
+//    _UpImageView.backgroundColor = [UIColor grayColor];
+//    
+//    [self.view insertSubview:_UpImageView belowSubview:self.flashBackView];
+//    
+//    
+////    _DownImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,_UpImageView.bottom, kScreenWidth, (kScreenHeight - FlashBackView_Height - TakePhotoBackView_Height) / 2)];
+//    
+//    _DownImageView.backgroundColor = [UIColor grayColor];
     
-    _UpImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, FlashBackView_Height, kScreenWidth, (kScreenHeight - FlashBackView_Height - TakePhotoBackView_Height) / 2)];
-    
-    _UpImageView.backgroundColor = [UIColor grayColor];
-    
-    [self.view insertSubview:_UpImageView belowSubview:self.flashBackView];
-    
-    
-//    _DownImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,_UpImageView.bottom, kScreenWidth, (kScreenHeight - FlashBackView_Height - TakePhotoBackView_Height) / 2)];
-    
-    _DownImageView.backgroundColor = [UIColor grayColor];
-    
-    [self.view insertSubview:_DownImageView belowSubview:self.TakePhotoBackView];
+//    [self.view insertSubview:_DownImageView belowSubview:self.TakePhotoBackView];
     
     
 }
 
 -(void)annimation {
-    
-    [UIView animateWithDuration:0.5 animations:^{
-        
-        _UpImageView.transform = CGAffineTransformMakeTranslation(0,- _UpImageView.frame.size.height - FlashBackView_Height );
-        
-        _DownImageView.transform = CGAffineTransformMakeTranslation(0, _DownImageView.frame.size.height + TakePhotoBackView_Height);
-        
-    }];
-    
+//    [UIView animateWithDuration:0.5 animations:^{
+//        _UpImageView.transform = CGAffineTransformMakeTranslation(0,- _UpImageView.frame.size.height - FlashBackView_Height );
+//        _DownImageView.transform = CGAffineTransformMakeTranslation(0, _DownImageView.frame.size.height + TakePhotoBackView_Height);
+//    }];
 }
+
+
+#pragma mark - ---
+-(UIView *)flashBackView {
+    if (_flashBackView == nil) {
+        _flashBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth,FlashBackView_Height )];
+        _flashBackView.backgroundColor = [UIColor grayColor];
+    }
+    return _flashBackView;
+}
+
+//-(UIView *)backView {
+//    if (_backView == nil) {
+//        _backView = [[UIView alloc] initWithFrame:self.view.bounds];
+//        _backView.layer.masksToBounds = YES;
+//    }
+//    return _backView;
+//    
+//}
+//-(UIView *)TakePhotoBackView {
+//    if (_TakePhotoBackView == nil) {
+//        _TakePhotoBackView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - TakePhotoBackView_Height, kScreenWidth, TakePhotoBackView_Height)];
+//        _TakePhotoBackView.backgroundColor = [UIColor grayColor];
+//    }
+//    return _TakePhotoBackView;
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)dealloc{
+    NSLog(@"销毁%s",__FUNCTION__);
 }
 
 /*

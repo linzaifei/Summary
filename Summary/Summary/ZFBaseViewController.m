@@ -8,8 +8,8 @@
 
 #import "ZFBaseViewController.h"
 
-@interface ZFBaseViewController ()
-
+@interface ZFBaseViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property(strong,nonatomic)UITableView *tableView;
 @end
 
 @implementation ZFBaseViewController
@@ -17,6 +17,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = HexRGB(0xf2f2f2);
+}
+
+
+-(void)setBaseArr:(NSArray *)baseArr{
+    _baseArr = baseArr;
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.baseArr.count;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
+    
+    cell.textLabel.font = [UIFont systemFontOfSize:15];
+    cell.textLabel.text = self.baseArr[indexPath.row];
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
 }
 
 - (void)didReceiveMemoryWarning {

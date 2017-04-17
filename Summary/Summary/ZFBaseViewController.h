@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ZFBaseViewController : UIViewController
-
+@property(strong,nonatomic)NSArray *baseArr;
 @end

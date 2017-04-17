@@ -11,7 +11,7 @@
 #import "ZFPresentationController.h"
 
 @interface ZFShowViewController ()<UIViewControllerTransitioningDelegate>
-
+@property(strong,nonatomic)CustomTransition *customTransition;
 @end
 
 @implementation ZFShowViewController
@@ -19,13 +19,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor redColor];
-  
 }
 -(instancetype)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationCustom; //自己定义弹出动画 不使用系统的
-        self.transitioningDelegate  = self;
+        self.transitioningDelegate  = self.customTransition;
         
     }
     return self;
@@ -36,24 +35,13 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationCustom;
-        self.transitioningDelegate  = self;
-        
+        self.transitioningDelegate  = self.customTransition;
     }
     return self;
 }
 
 
-- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source{
-    return [[CustomTransition alloc] initWithTransition:YES];
-}
 
-- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
-    if (dismissed) {
-       return [[CustomTransition alloc] initWithTransition:NO];
-    }else{
-        return nil;
-    }
-}
 /*
 - (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id <UIViewControllerAnimatedTransitioning>)animator{
 
@@ -63,16 +51,18 @@
 
 }
 */
-- (nullable UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(nullable UIViewController *)presenting sourceViewController:(UIViewController *)source NS_AVAILABLE_IOS(8_0){
-    NSLog(@"presented == %@",presented);
-    NSLog(@"presenting == %@",presenting);
-    
-    NSLog(@"source == %@",source);
-    
-    ZFPresentationController *presentViewController = [[ZFPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
-    return presentViewController;
-    
-    return nil;
+
+-(CustomTransition *)customTransition{
+    if (_customTransition == nil) {
+        _customTransition = [[CustomTransition alloc] init];
+    }
+    return _customTransition;
+}
+
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [super touchesBegan:touches withEvent:event];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 

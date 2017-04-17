@@ -10,7 +10,7 @@
 
 @interface ZFPopViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(strong,nonatomic)UITableView *tableView;
-@property(strong,nonatomic)NSMutableArray *colorArray;
+
 
 @end
 
@@ -25,22 +25,27 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.scrollEnabled = NO;
-    self.colorArray = [[NSMutableArray alloc] initWithObjects:@"green",@"gray", @"blue",@"purple", @"yellow", nil];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.colorArray.count;
+    return self.dataArr.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
-    cell.textLabel.text = self.colorArray[indexPath.row];
+    cell.textLabel.text = self.dataArr[indexPath.row];
+    if (self.picArr[indexPath.row]) {
+        cell.imageView.image = [UIImage imageNamed:self.picArr[indexPath.row]];
+    }
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{ //创建消息，在点击相应的颜色时发送，在ViewController中接受消息并做出相应的处理
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"click" object:indexPath];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (self.clickCellIndexBlock) {
+        self.clickCellIndexBlock(self.dataArr, indexPath.row);
+    }
 }
 
 //重写preferredContentSize（iOS7之后）来返回最合适的大小，如果不重写，会返回一整个tableview尽管下面一部分cell是没有内容的，重写后只会返回有内容的部分，我这里还修改了宽，让它窄一点。可以尝试注释这一部分的代码来看效果，通过修改返回的size得到你期望的popover的大小。

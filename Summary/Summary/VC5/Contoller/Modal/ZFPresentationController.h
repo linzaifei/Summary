@@ -1,5 +1,5 @@
 //
-//  ZFPopViewController.h
+//  ZFPresentationController.h
 //  Summary
 //
 //  Created by xinshiyun on 2017/4/14.
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZFPopViewController : UIViewController
+@interface ZFPresentationController : UIPresentationController
+
+@property(assign,nonatomic)CGRect presentFrame;
 
 @end

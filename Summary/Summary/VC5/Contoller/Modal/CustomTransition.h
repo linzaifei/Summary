@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CustomTransition : NSObject<UIViewControllerAnimatedTransitioning>
+@interface CustomTransition : NSObject<UIViewControllerAnimatedTransitioning,UIViewControllerTransitioningDelegate>
 /**
  用来做转场动画
  
  @param ispresenting YES 显示 NO 消失
  @return <#return value description#>
  */
--(instancetype)initWithTransition:(BOOL)ispresenting;
+//-(instancetype)initWithTransition:(BOOL)ispresenting;
 
 @end

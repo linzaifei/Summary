@@ -11,14 +11,19 @@
 #import "ZFPhotoHeadView.h"
 #import "ZFPhotoCollectionViewCell.h"
 #import "RemindView.h"
+#import "ZFCamareViewController.h"
 
 
-
+//设备屏幕尺寸
+#define kScreenHeight   [UIScreen mainScreen].bounds.size.height
+#define kScreenWidth    [UIScreen mainScreen].bounds.size.width
 @interface ZFPhotoViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property(strong,nonatomic)UICollectionView *collectionView;
 @property(strong,nonatomic)NSMutableArray *dataArr;
 @property(strong,nonatomic)NSMutableArray <PHAsset *>*seletedPhotos;
 @property(strong,nonatomic)NSMutableDictionary *selectedAssetsDic;
+@property(strong,nonatomic)ZFCamareViewController *camareViewController;
+@property(strong,nonatomic)UIView *contentView;
 
 @end
 
@@ -26,7 +31,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setNavi];
+    [self addChildrenView];
+    [self setUI];
     [self loadData];
 }
 -(instancetype)init{
@@ -40,11 +46,22 @@
     return self;
 }
 
--(void)setNavi{
+-(void)addChildrenView{
+    _camareViewController = [[ZFCamareViewController alloc] init];
+    _camareViewController.view.frame = CGRectMake(0, -kScreenHeight, kScreenWidth,kScreenHeight);
+    [self addChildViewController:_camareViewController];
+    [self.view addSubview:self.contentView];
+    __weak ZFPhotoViewController *ws = self;
+    _camareViewController.backBlock = ^{
+        [ws backToFirstPageAnimation];
+    };
+}
+
+-(void)setUI{
     ZFPhotoHeadView *photoHeadView = [ZFPhotoHeadView new];
-    photoHeadView.barTintColor = [UIColor brownColor];
+    photoHeadView.barTintColor = [UIColor whiteColor];
     photoHeadView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:photoHeadView];
+    [self.contentView addSubview:photoHeadView];
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.minimumLineSpacing = 5;
@@ -58,19 +75,31 @@
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-    [self.view addSubview:self.collectionView];
+    [self.contentView addSubview:self.collectionView];
     [self.collectionView registerClass:[ZFPhotoCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([ZFPhotoCollectionViewCell class])];
    
+    //////------block --------
     __weak ZFPhotoViewController *ws = self;
+    //点击取消
     photoHeadView.cancelBlock = ^(){
+        if (ws.view.subviews.count > 1) {
+            [ws.camareViewController.view removeFromSuperview];
+            ws.camareViewController.view = nil;
+        }
         [ws dismissViewControllerAnimated:YES completion:NULL];
     };
+    //点击选中
     photoHeadView.chooseBlock = ^(){
         if ([ws.delegate respondsToSelector:@selector(photoPickerViewController:didSelectPhotos:)]) {
             [ws.delegate photoPickerViewController:ws didSelectPhotos:[ws.seletedPhotos copy]];
         }
     };
+    //点击标题
+    photoHeadView.titleBlock = ^(){
 
+    };
+    
+/////-------布局
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[photoHeadView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_collectionView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[photoHeadView(==64)]-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView,_collectionView)]];
@@ -126,7 +155,6 @@
     UIImage *cameraImage = [UIImage imageNamed:[@"ZFPhotoBundle.bundle" stringByAppendingPathComponent:@"AssetsCamera.png"]];
     [cameraImage resizableImageWithCapInsets:UIEdgeInsetsMake(1, 1, 1, 1)];
     [self.dataArr addObject:cameraImage];
-    
     [self.collectionView reloadData];
 }
 
@@ -134,7 +162,7 @@
     return self.dataArr.count;
 }
 
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+-(__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ZFPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ZFPhotoCollectionViewCell class]) forIndexPath:indexPath];
     NSInteger index = self.dataArr.count - indexPath.item - 1;
     id data = self.dataArr[index];
@@ -171,22 +199,18 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    id data = self.dataArr[indexPath.row];
+    NSInteger index = self.dataArr.count - indexPath.item - 1;
+    id data = self.dataArr[index];
     if ([data isKindOfClass:[UIImage class]]) {
-    UIImagePickerController *pickerVC = [[UIImagePickerController alloc] init];
-    pickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
-    pickerVC.allowsEditing = YES;
-    pickerVC.delegate = self;
-    pickerVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:pickerVC animated:YES completion:NULL];
+        [self goToDetailAnimation];
         
     }else{
         PHAsset *asset = (PHAsset *)data;
-        
     }
     
 }
 
+///外部传入 是否选中状态
 -(void)setSelectItems:(NSArray<PHAsset *> *)selectItems{
     for (PHAsset *asset in selectItems) {
         if (asset) {
@@ -196,6 +220,38 @@
     }
 }
 
+// 进入相机的动画
+- (void)goToDetailAnimation{
+    if (self.view.subviews.count < 2) {
+        [self.view addSubview:_camareViewController.view];
+    }
+    __weak ZFPhotoViewController *ws = self;
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+        ws.camareViewController.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+        ws.contentView.frame = CGRectMake(0, kScreenHeight,kScreenWidth, kScreenHeight);
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+// 返回第一个界面的动画
+- (void)backToFirstPageAnimation {
+     __weak ZFPhotoViewController *ws = self;
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+        ws.camareViewController.view.frame = CGRectMake(0,-kScreenHeight, kScreenWidth, kScreenHeight);
+        ws.contentView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+#pragma mark ----
+-(UIView *)contentView{
+    if (_contentView == nil) {
+        _contentView = [[UIView alloc] initWithFrame:self.view.bounds];
+    }
+    return _contentView;
+}
 
 -(NSMutableArray *)dataArr{
     if (_dataArr == nil) {

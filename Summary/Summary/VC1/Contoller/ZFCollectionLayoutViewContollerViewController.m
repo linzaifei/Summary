@@ -9,43 +9,23 @@
 #import "ZFCollectionLayoutViewContollerViewController.h"
 #import "ZFCollectionWaterFallViewController.h"
 
-@interface ZFCollectionLayoutViewContollerViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property(strong,nonatomic)UITableView *tableView;
+@interface ZFCollectionLayoutViewContollerViewController ()
 
-@property(strong,nonatomic)NSArray *dataArr;
+
+
 @end
 
 @implementation ZFCollectionLayoutViewContollerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setUI];
-    self.dataArr = @[@"普通布局",@"瀑布流",@"滑动布局"];
-}
-
--(void)setUI{
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.dataArr.count;
-}
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
-    
-    cell.textLabel.font = [UIFont systemFontOfSize:15];
-    cell.textLabel.text = self.dataArr[indexPath.row];
-    return cell;
+    self.baseArr = @[@"普通布局",@"瀑布流",@"滑动布局"];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ZFCollectionWaterFallViewController *waterFallVC = [[ZFCollectionWaterFallViewController alloc] init];
-    waterFallVC.title = self.dataArr[indexPath.row];
+    waterFallVC.title = self.baseArr[indexPath.row];
     switch (indexPath.row) {
         case 0:
             waterFallVC.type = CollectionLayoutTypeNone;
