@@ -100,9 +100,9 @@
     };
     
 /////-------布局
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[photoHeadView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_collectionView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[photoHeadView(==64)]-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView,_collectionView)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[photoHeadView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_collectionView)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[photoHeadView(==64)]-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView,_collectionView)]];
 }
 
 -(void)loadData{
@@ -180,13 +180,13 @@
     __weak ZFPhotoCollectionViewCell *weakCell = cell;
     cell.btnSelectBlock = ^(PHAsset *asset, BOOL isSelect) {
         NSString *urlKey = asset.localIdentifier;
-        if ([self.selectedAssetsDic valueForKey:urlKey]) {
+        if ([ws.selectedAssetsDic valueForKey:urlKey]) {
             weakCell.isSelect = NO;
-            [self.seletedPhotos removeObject:self.selectedAssetsDic[urlKey]];
-            [self.selectedAssetsDic removeObjectForKey:urlKey];
+            [ws.seletedPhotos removeObject:ws.selectedAssetsDic[urlKey]];
+            [ws.selectedAssetsDic removeObjectForKey:urlKey];
         }else {
-            if (self.seletedPhotos.count>=self.maxCount) {
-                [RemindView showViewWithTitle:[NSString stringWithFormat:@"%@%lu", NSLocalizedString(@"最多选择", nil), (unsigned long)self.maxCount] location:LocationTypeMIDDLE];
+            if (ws.seletedPhotos.count >= ws.maxCount) {
+                [RemindView showViewWithTitle:[NSString stringWithFormat:@"%@%lu", NSLocalizedString(@"最多选择", nil), (unsigned long)ws.maxCount] location:LocationTypeMIDDLE];
                 return;
             }
             weakCell.isSelect = YES;
@@ -320,7 +320,6 @@
  PHImageResultOptimizedForSharing = 0;
  PHImageResultWantedImageFormatKey = 4035;
  */
-
 
 -(void)dealloc{
     NSLog(@"销毁 %s",__FUNCTION__);

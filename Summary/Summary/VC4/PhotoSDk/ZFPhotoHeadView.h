@@ -13,7 +13,7 @@
 typedef void(^CancelBlock)();
 typedef void(^ChooseBlock)();
 typedef void(^TitleBlock)();
-typedef void(^FlashBlock)();
+typedef void(^FlashBlock)(UIButton *flashBtn);
 typedef void(^ChangeBlock)();
 
 
@@ -31,8 +31,9 @@ typedef void(^ChangeBlock)();
 @end
 
 @interface ZFTakePhotoHeadView : UIView
+@property(copy,nonatomic)void(^takePhotoBlock)();
 @property(copy,nonatomic)CancelBlock cancelBlock;
-
+@property(copy,nonatomic)ChooseBlock chooseBlock;
 @end
 
 

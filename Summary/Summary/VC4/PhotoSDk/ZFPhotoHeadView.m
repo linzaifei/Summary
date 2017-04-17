@@ -136,9 +136,10 @@
     
     [backBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
     [flashBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [changeBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
     backBtn.tag = 310;
     flashBtn.tag = 311;
-    changeBtn.tag = 302;
+    changeBtn.tag = 312;
     
 }
 
@@ -151,7 +152,7 @@
             break;
         case 1:
             if (self.flashBlock) {
-                self.flashBlock();
+                self.flashBlock(btn);
             }
             break;
         case 2:
@@ -181,10 +182,15 @@
 }
 
 -(void)setUI{
+    
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelBtn setTitle:NSLocalizedString(@"取消", nil) forState:UIControlStateNormal];
+    cancelBtn.translatesAutoresizingMaskIntoConstraints = NO;
     [cancelBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    cancelBtn.frame = CGRectMake(0, 0, 30, 30);
-    [cancelBtn setImage:[UIImage imageNamed:[@"ZFPhotoBundle.bundle" stringByAppendingPathComponent:@"photo_back.png"]] forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    cancelBtn.frame = CGRectMake(0, 0, 40, 25);
+    [self addSubview:cancelBtn];
+    
     
     self.takePhotoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.takePhotoBtn.translatesAutoresizingMaskIntoConstraints = NO;
@@ -195,13 +201,60 @@
     self.takePhotoBtn.frame = CGRectMake(0, 0, 50, 30);
     [self addSubview:self.takePhotoBtn];
     
+    
+    UIButton *chooseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [chooseBtn setTitle:NSLocalizedString(@"采用", nil) forState:UIControlStateNormal];
+    chooseBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    [chooseBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    chooseBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    chooseBtn.frame = CGRectMake(0, 0, 40, 25);
+    [self addSubview:chooseBtn];
+    
+    
+    [self.takePhotoBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [chooseBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
     [cancelBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
- 
+    
+    cancelBtn.tag = 320;
+    self.takePhotoBtn.tag = 321;
+    chooseBtn.tag = 322;
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.takePhotoBtn attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.takePhotoBtn attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:cancelBtn attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[cancelBtn]-60-[_takePhotoBtn]" options:0 metrics:0 views:NSDictionaryOfVariableBindings(cancelBtn,_takePhotoBtn)]];
+
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:chooseBtn attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_takePhotoBtn]-60-[chooseBtn]" options:0 metrics:0 views:NSDictionaryOfVariableBindings(chooseBtn,_takePhotoBtn)]];
+
 }
 
-
+-(void)clickBtn:(UIButton *)btn{
+    switch (btn.tag - 320) {
+        case 0:
+            if(self.cancelBlock){
+                self.cancelBlock();
+            }
+            break;
+        case 1:
+            if (self.takePhotoBlock) {
+                self.takePhotoBlock();
+            }        
+            break;
+        case 2:
+            if(self.chooseBlock){
+                self.chooseBlock();
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+    
+}
 
 @end
