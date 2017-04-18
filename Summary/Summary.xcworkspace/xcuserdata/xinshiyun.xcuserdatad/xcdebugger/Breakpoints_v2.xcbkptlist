@@ -52,89 +52,57 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Summary/VC4/PhotoSDk/ZFCamareViewController.m"
-            timestampString = "514111720.209386"
+            timestampString = "514200031.623228"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
-            landmarkName = "-takePic"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Summary/VC4/PhotoSDk/ZFCamareViewController.m"
-            timestampString = "514111720.209386"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "371"
-            endingLineNumber = "371"
-            landmarkName = "-takePic"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Summary/VC4/PhotoSDk/ZFCamareViewController.m"
-            timestampString = "514111720.209386"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "322"
-            endingLineNumber = "322"
-            landmarkName = "-TakePhotoAction"
+            startingLineNumber = "392"
+            endingLineNumber = "392"
+            landmarkName = "-photoLibraryDidChange:"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__41-[ZFCamareViewController TakePhotoAction]_block_invoke"
+                  symbolName = "__48-[ZFCamareViewController photoLibraryDidChange:]_block_invoke"
                   moduleName = "Summary"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/xinshiyun/Desktop/%E6%80%BB%E7%BB%93/Summary/Summary/VC4/PhotoSDk/ZFCamareViewController.m"
-                  timestampString = "514114364.708203"
+                  urlString = "file:///Users/xinshiyun/Desktop/Summary/Summary/Summary/VC4/PhotoSDk/ZFCamareViewController.m"
+                  timestampString = "514200264.521801"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "331"
-                  endingLineNumber = "331"
-                  offsetFromSymbolStart = "300">
+                  startingLineNumber = "441"
+                  endingLineNumber = "441"
+                  offsetFromSymbolStart = "244">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_.200"
+                  symbolName = "__copy_helper_block_.360"
                   moduleName = "Summary"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/xinshiyun/Desktop/%E6%80%BB%E7%BB%93/Summary/Summary/VC4/PhotoSDk/ZFCamareViewController.m"
-                  timestampString = "514114364.709483"
+                  urlString = "file:///Users/xinshiyun/Desktop/Summary/Summary/Summary/VC4/PhotoSDk/ZFCamareViewController.m"
+                  timestampString = "514200264.523139"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "331"
-                  endingLineNumber = "331"
+                  startingLineNumber = "441"
+                  endingLineNumber = "441"
                   offsetFromSymbolStart = "64">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.201"
+                  symbolName = "__destroy_helper_block_.361"
                   moduleName = "Summary"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/xinshiyun/Desktop/%E6%80%BB%E7%BB%93/Summary/Summary/VC4/PhotoSDk/ZFCamareViewController.m"
-                  timestampString = "514114364.710812"
+                  urlString = "file:///Users/xinshiyun/Desktop/Summary/Summary/Summary/VC4/PhotoSDk/ZFCamareViewController.m"
+                  timestampString = "514200264.52445"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "331"
-                  endingLineNumber = "331"
+                  startingLineNumber = "441"
+                  endingLineNumber = "441"
                   offsetFromSymbolStart = "36">
                </Location>
             </Locations>
@@ -147,12 +115,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Summary/VC4/PhotoSDk/ZFCamareViewController.m"
-            timestampString = "514111720.209386"
+            timestampString = "514200031.623228"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
-            landmarkName = "-setUpGesture"
+            startingLineNumber = "386"
+            endingLineNumber = "386"
+            landmarkName = "-photoLibraryDidChange:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -163,44 +131,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Summary/VC4/PhotoSDk/ZFCamareViewController.m"
-            timestampString = "514111720.209386"
+            timestampString = "514200031.623228"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337"
-            landmarkName = "-cancle"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Summary/VC4/PhotoSDk/ZFCamareViewController.m"
-            timestampString = "514111720.209386"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
-            landmarkName = "-handlePinchGesture:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Summary/VC4/PhotoSDk/ZFPhotoViewController.m"
-            timestampString = "514112852.735495"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "326"
-            endingLineNumber = "326"
-            landmarkName = "-dealloc"
+            startingLineNumber = "390"
+            endingLineNumber = "390"
+            landmarkName = "-photoLibraryDidChange:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

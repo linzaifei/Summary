@@ -230,18 +230,18 @@
         ws.camareViewController.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
         ws.contentView.frame = CGRectMake(0, kScreenHeight,kScreenWidth, kScreenHeight);
     } completion:^(BOOL finished) {
-        
+        [ws.camareViewController zf_onpenAnnimation];
     }];
 }
-
 // 返回第一个界面的动画
 - (void)backToFirstPageAnimation {
      __weak ZFPhotoViewController *ws = self;
+    
     [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
         ws.camareViewController.view.frame = CGRectMake(0,-kScreenHeight, kScreenWidth, kScreenHeight);
         ws.contentView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     } completion:^(BOOL finished) {
-        
+    
     }];
 }
 

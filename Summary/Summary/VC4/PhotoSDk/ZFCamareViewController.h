@@ -17,6 +17,10 @@
 @end
 
 @interface ZFCamareViewController : UIViewController
+//关闭
+-(void)zf_closeAnnimation;
+//开启
+-(void)zf_onpenAnnimation;
 
 @property(weak,nonatomic)id<CameraViewDelegate> cameraDelegate;
 @property(copy,nonatomic)void(^backBlock)();
