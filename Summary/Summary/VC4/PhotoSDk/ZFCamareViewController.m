@@ -8,17 +8,14 @@
 
 #import "ZFCamareViewController.h"
 #import <AVFoundation/AVFoundation.h>
-#import <AssetsLibrary/AssetsLibrary.h>
+#import <Photos/Photos.h>
 #import "ZFPhotoHeadView.h"
 #import "RemindView.h"
 
-#define Flash_Width
-#define TakePhotoBackView_Height 130
-#define FlashBackView_Height 65
-#define PIC_Width 40
-#define PIC_Height 30
+#define bottom_height 130 //微博距离
+#define top_height 64 //顶部距离
 
-@interface ZFCamareViewController ()<UIGestureRecognizerDelegate>
+@interface ZFCamareViewController ()<UIGestureRecognizerDelegate,PHPhotoLibraryChangeObserver>
 
 //AVFoundation
 
@@ -109,19 +106,15 @@
     _upImageView = [[UIImageView alloc] init];
     _upImageView.translatesAutoresizingMaskIntoConstraints = NO;
     _upImageView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_upImageView];
+    [self.view insertSubview:_upImageView belowSubview:camareHeadView];
     
     
     _downImageView = [[UIImageView alloc] init];
     _downImageView.translatesAutoresizingMaskIntoConstraints = NO;
     _downImageView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_downImageView];
+    [self.view insertSubview:_downImageView belowSubview:takePhotoHeadView];
     
-    _upImageView.layer.anchorPoint = CGPointMake(0.5f, 0.0);
-    _downImageView.layer.anchorPoint = CGPointMake(0.5f,1.0f);
-    _upImageView.transform = CGAffineTransformMakeScale(1.0f,0.0);
-    _downImageView.transform = CGAffineTransformMakeScale(1.0f,0.0);
-    
+
     
     __weak ZFCamareViewController *ws = self;
     camareHeadView.cancelBlock = ^(){
@@ -141,8 +134,7 @@
         [ws cancel];
     };
     takePhotoHeadView.chooseBlock = ^(){
-       
-        
+        [ws savePhoto];
     };
     ///------------布局--------
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[camareHeadView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(camareHeadView)]];
@@ -153,12 +145,11 @@
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_downImageView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_downImageView)]];
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[camareHeadView(==64)]-0-[_upImageView]" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_upImageView,camareHeadView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_downImageView]-0-[takePhotoHeadView(==130)]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_downImageView,takePhotoHeadView)]];
+    CGFloat width = (kScreenHeight - bottom_height - top_height) / 2.0;
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[camareHeadView(==top_height)]-0-[_upImageView(==sppding)]" options:0 metrics:@{@"sppding":[NSNumber numberWithFloat:width],@"top_height":[NSNumber numberWithInteger:top_height]} views:NSDictionaryOfVariableBindings(_upImageView,camareHeadView)]];
     
-    CGFloat width = (kScreenHeight - 130 -64) / 2.0;
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_upImageView attribute:NSLayoutAttributeHeight relatedBy:0 toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:width constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_downImageView attribute:NSLayoutAttributeHeight relatedBy:0 toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:width constant:0]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_downImageView(==sppding)]-0-[takePhotoHeadView(==bottomHeight)]-0-|" options:0 metrics:@{@"sppding":[NSNumber numberWithFloat:width],@"bottomHeight":[NSNumber numberWithInteger:bottom_height]} views:NSDictionaryOfVariableBindings(_downImageView,takePhotoHeadView)]];
+
 }
 
 #pragma mark private method
@@ -169,7 +160,6 @@
      *  捕获设备，通常是前置摄像头，后置摄像头，麦克风（音频输入）
      */
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    
     //更改这个设置的时候必须先锁定设备，修改完后再解锁，否则崩溃
     [device lockForConfiguration:nil];
     //设置闪光灯为自动
@@ -182,11 +172,10 @@
     }
     /*!
      图片输出
-     
+
      - returns:
      */
     self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-    
     //输出设置。AVVideoCodecJPEG   输出jpeg格式图片
     NSDictionary * outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecJPEG,AVVideoCodecKey, nil];
     [self.stillImageOutput setOutputSettings:outputSettings];
@@ -316,18 +305,16 @@
         return;
     }
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-        
         if (imageDataSampleBuffer == NULL) {
             return;
         }
         
         NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-        
         CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault,imageDataSampleBuffer,
 kCMAttachmentMode_ShouldPropagate);
         
-        ALAuthorizationStatus author = [ALAssetsLibrary authorizationStatus];
-        if (author == ALAuthorizationStatusRestricted || author == ALAuthorizationStatusDenied){
+        PHAuthorizationStatus author = [PHPhotoLibrary authorizationStatus];
+        if (author == PHAuthorizationStatusRestricted || author == PHAuthorizationStatusDenied){
             //无权限
             [RemindView showViewWithTitle:NSLocalizedString(@"无权限", nil) location:LocationTypeMIDDLE];
             return ;
@@ -335,11 +322,10 @@ kCMAttachmentMode_ShouldPropagate);
         
         _data = imageData;
         _dicRef = attachments;
-        
-        
+    
         self.image = [UIImage imageWithData:imageData];
-
         [self.session stopRunning];
+        
         self.imageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
         [self.view insertSubview:_imageView atIndex:0];
         self.imageView.layer.masksToBounds = YES;
@@ -347,7 +333,6 @@ kCMAttachmentMode_ShouldPropagate);
         NSLog(@"image size = %@",NSStringFromCGSize(self.image.size));
         
     }];
-    
 }
 
 //取消选中
@@ -358,41 +343,102 @@ kCMAttachmentMode_ShouldPropagate);
     }
     [self.session startRunning];
 }
-
 //返回
 -(void)backAction{
     [self cancel];
-    [self annimation];
+    [self zf_closeAnnimation];
     [self performSelector:@selector(dey) withObject:self afterDelay:0.5];
 }
-
 -(void)dey{
-    
     if (self.backBlock) {
         self.backBlock();
     }
 }
 
--(void)takePic {
-    __weak ZFCamareViewController *WeakSelf = self;
-    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    [library writeImageDataToSavedPhotosAlbum:_data metadata:(__bridge id)
-     _dicRef completionBlock:^(NSURL *assetURL, NSError *error) {
-         [library assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-             if ([_cameraDelegate respondsToSelector:@selector(photoCapViewController:didFinishDismissWithPhotoImage:)]) {
-                 [_cameraDelegate photoCapViewController:self didFinishDismissWithPhotoImage:asset];
-                 
-                 //                 NSLog(@"%@",asset);
-                 
-             }
-             [WeakSelf backAction];
-         } failureBlock:^(NSError *error) {
-             
-             
-
-         }];
-     }];
+-(void)savePhoto {
    
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+    
+    __weak ZFCamareViewController *ws = self;
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        PHAssetChangeRequest *request = [PHAssetChangeRequest creationRequestForAssetFromImage:ws.image];
+        
+        PHObjectPlaceholder *assetPlaceholder = request.placeholderForCreatedAsset;
+        
+        PHAssetCollectionChangeRequest *collectRequest = [[PHAssetCollectionChangeRequest alloc] init];
+        
+        [collectRequest addAssets:@[assetPlaceholder]];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (success) {
+           
+        }
+    }];
+}
+// This callback is invoked on an arbitrary serial queue. If you need this to be handled on a specific queue, you should redispatch appropriately
+- (void)photoLibraryDidChange:(PHChange *)changeInstance{
+    // Photos may call this method on a background queue;
+    // switch to the main queue to update the UI.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+     PHFetchResult *rootCollectionsFetchResult = [PHCollection fetchTopLevelUserCollectionsWithOptions:nil];
+
+        PHFetchResultChangeDetails *changeDetails = [changeInstance changeDetailsForFetchResult:rootCollectionsFetchResult];
+        
+        if(!changeDetails.hasIncrementalChanges){
+            
+            NSLog(@"%@",changeDetails.fetchResultAfterChanges);
+            NSLog(@"---------");
+            
+            
+        }
+        
+        
+        // Check for changes to the displayed album itself
+//        // (its existence and metadata, not its member assets).
+//        PHObjectChangeDetails *albumChanges = [changeInstance changeDetailsForObject:self.displayedAlbum];
+//        if (albumChanges) {
+//            // Fetch the new album and update the UI accordingly.
+//            self.displayedAlbum = [albumChanges objectAfterChanges];
+//        }
+//        
+//        // Check for changes to the list of assets (insertions, deletions, moves, or updates).
+//        PHFetchResultChangeDetails *collectionChanges = [changeInstance changeDetailsForFetchResult:self.albumContents];
+//        if (collectionChanges) {
+//            // Get the new fetch result for future change tracking.
+//            self.albumContents = collectionChanges.fetchResultAfterChanges;
+//            
+//            if (collectionChanges.hasIncrementalChanges)  {
+//                // Tell the collection view to animate insertions/deletions/moves
+//                // and to refresh any cells that have changed content.
+//                [self.collectionView performBatchUpdates:^{
+//                    NSIndexSet *removed = collectionChanges.removedIndexes;
+//                    if (removed.count) {
+//                        [self.collectionView deleteItemsAtIndexPaths:[self indexPathsFromIndexSet:removed]];
+//                    }
+//                    NSIndexSet *inserted = collectionChanges.insertedIndexes;
+//                    if (inserted.count) {
+//                        [self.collectionView insertItemsAtIndexPaths:[self indexPathsFromIndexSet:inserted]];
+//                    }
+//                    NSIndexSet *changed = collectionChanges.changedIndexes;
+//                    if (changed.count) {
+//                        [self.collectionView reloadItemsAtIndexPaths:[self indexPathsFromIndexSet:changed]];
+//                    }
+//                    if (collectionChanges.hasMoves) {
+//                        [collectionChanges enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
+//                            NSIndexPath *fromIndexPath = [NSIndexPath indexPathForItem:fromIndex inSection:0];
+//                            NSIndexPath *toIndexPath = [NSIndexPath indexPathForItem:toIndex inSection:0];
+//                            [self.collectionView moveItemAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
+//                        }];
+//                    }
+//                } completion:nil];
+//            } else {
+//                // Detailed change information is not available;
+//                // repopulate the UI from the current fetch result.
+//                [self.collectionView reloadData];
+//            }
+//        }
+    });
 }
 
 //缩放手势 用于调整焦距
@@ -407,32 +453,37 @@ kCMAttachmentMode_ShouldPropagate);
             break;
         }
     }
-    
     if ( allTouchesAreOnThePreviewLayer ) {
         self.effectiveScale = self.beginGestureScale * recognizer.scale;
         if (self.effectiveScale < 1.0){
             self.effectiveScale = 1.0;
         }
         
-        NSLog(@"%f-------------->%f------------recognizerScale%f",self.effectiveScale,self.beginGestureScale,recognizer.scale);
+//        NSLog(@"%f-------------->%f------------recognizerScale%f",self.effectiveScale,self.beginGestureScale,recognizer.scale);
         CGFloat maxScaleAndCropFactor = [[self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo] videoMaxScaleAndCropFactor];
-        NSLog(@"%f",maxScaleAndCropFactor);
+//        NSLog(@"%f",maxScaleAndCropFactor);
         if (self.effectiveScale > maxScaleAndCropFactor)
             self.effectiveScale = maxScaleAndCropFactor;
-        
         [CATransaction begin];
         [CATransaction setAnimationDuration:.025];
         [self.previewLayer setAffineTransform:CGAffineTransformMakeScale(self.effectiveScale, self.effectiveScale)];
         [CATransaction commit];
         
     }
-    
 }
 
--(void)annimation {
-    [UIView animateWithDuration:0.5 animations:^{
+-(void)zf_closeAnnimation{
+    [UIView animateWithDuration:0.3 animations:^{
         _upImageView.transform = CGAffineTransformIdentity;
         _downImageView.transform = CGAffineTransformIdentity;
+    }];
+}
+
+-(void)zf_onpenAnnimation {
+    CGFloat width = (kScreenHeight - bottom_height - top_height) / 2.0;
+    [UIView animateWithDuration:0.3 animations:^{
+        _upImageView.transform = CGAffineTransformMakeTranslation(0, -width);
+        _downImageView.transform = CGAffineTransformMakeTranslation(0, width);
     }];
 }
 
