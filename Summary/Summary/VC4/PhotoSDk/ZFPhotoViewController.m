@@ -41,8 +41,8 @@
 -(instancetype)init{
     if (self = [super init]) {
         self.columnCount = 3;
-        self.columnSpacing = 5;
-        self.rowSpacing = 5;
+        self.columnSpacing = 1;
+        self.rowSpacing = 1;
         self.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
         self.maxCount = 9;
     }
@@ -61,17 +61,19 @@
 }
 
 -(void)setUI{
+    if(self.columnCount > 5 || self.columnCount < 3){
+        self.columnCount = 3;
+    }
     
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
-    
     ZFPhotoHeadView *photoHeadView = [ZFPhotoHeadView new];
     photoHeadView.barTintColor = [UIColor whiteColor];
     photoHeadView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:photoHeadView];
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumLineSpacing = 5;
-    layout.minimumInteritemSpacing = 5;
+    layout.minimumLineSpacing = self.rowSpacing;
+    layout.minimumInteritemSpacing = self.columnSpacing;
     layout.sectionInset = self.sectionInset;
     CGFloat itemWidth = (kScreenWidth - self.rowSpacing * (self.columnCount - 1) - self.sectionInset.left - self.sectionInset.right) / self.columnCount;
     layout.itemSize = CGSizeMake(itemWidth, itemWidth);
@@ -139,8 +141,8 @@
     PHFetchResult<PHAsset *> * assets = [self.sectionResults firstObject];
     __weak ZFPhotoViewController *ws = self;
     [assets enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSLog(@"%ld",obj.mediaSubtypes);
-        NSLog(@"%ld",obj.mediaType);
+//        NSLog(@"%ld",obj.mediaSubtypes);
+//        NSLog(@"%ld",obj.mediaType);
         [ws.dataArr addObject:obj];
     }];
     
