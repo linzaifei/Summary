@@ -17,13 +17,16 @@
 //设备屏幕尺寸
 #define kScreenHeight   [UIScreen mainScreen].bounds.size.height
 #define kScreenWidth    [UIScreen mainScreen].bounds.size.width
-@interface ZFPhotoViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface ZFPhotoViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate, UIImagePickerControllerDelegate,PHPhotoLibraryChangeObserver>
 @property(strong,nonatomic)UICollectionView *collectionView;
 @property(strong,nonatomic)NSMutableArray *dataArr;
 @property(strong,nonatomic)NSMutableArray <PHAsset *>*seletedPhotos;
 @property(strong,nonatomic)NSMutableDictionary *selectedAssetsDic;
 @property(strong,nonatomic)ZFCamareViewController *camareViewController;
 @property(strong,nonatomic)UIView *contentView;
+//存储所有照片
+@property (nonatomic, strong) NSMutableArray <PHFetchResult *>*sectionResults;
+
 
 @end
 
@@ -58,6 +61,9 @@
 }
 
 -(void)setUI{
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+    
     ZFPhotoHeadView *photoHeadView = [ZFPhotoHeadView new];
     photoHeadView.barTintColor = [UIColor whiteColor];
     photoHeadView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -99,31 +105,53 @@
 
     };
     
-/////-------布局
+///-------布局
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[photoHeadView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView)]];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_collectionView)]];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[photoHeadView(==64)]-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView,_collectionView)]];
 }
 
 -(void)loadData{
-
-    /*
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    // 获得相机胶卷
+    PHAssetCollection *Libararys = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil].lastObject;
+    // 遍历相机胶卷,获取大图
+    [self enumerateAssetsInAssetCollection:Libararys original:YES];
+    
     PHFetchResult<PHAssetCollection *> *assetAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
     
     // 遍历所有的自定义相簿
     __weak ZFPhotoViewController *ws = self;
     [assetAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [ws enumerateAssetsInAssetCollection:obj original:YES];
+        [ws enumerateAssetsInAssetCollection:obj original:YES];
+    }];
+
+    dispatch_group_leave(group);
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [ws zf_getFirstData];
+    });
+}
+
+-(void)zf_getFirstData{
+    [self.dataArr removeAllObjects];
+    PHFetchResult<PHAsset *> * assets = [self.sectionResults firstObject];
+    __weak ZFPhotoViewController *ws = self;
+    [assets enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"%ld",obj.mediaSubtypes);
+        NSLog(@"%ld",obj.mediaType);
+        [ws.dataArr addObject:obj];
     }];
     
-   */
+    UIImage *cameraImage = [UIImage imageNamed:[@"ZFPhotoBundle.bundle" stringByAppendingPathComponent:@"AssetsCamera.png"]];
+    [cameraImage resizableImageWithCapInsets:UIEdgeInsetsMake(1, 1, 1, 1)];
+    [self.dataArr addObject:cameraImage];
+    [self.collectionView reloadData];
 
-    // 获得相机胶卷
-    PHAssetCollection *Libararys = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil].lastObject;
-    // 遍历相机胶卷,获取大图
-    [self enumerateAssetsInAssetCollection:Libararys original:YES];
-     
 }
+
+
 /**
  遍历所有照片
  
@@ -137,9 +165,8 @@
     
     // 获得某个相簿中的所有PHAsset对象
     PHFetchResult<PHAsset *> * assets = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
+    [self.sectionResults addObject:assets];
     
-    [self.dataArr removeAllObjects];
-
     /*
      synchronous：指定请求是否同步执行。
      resizeMode：对请求的图像怎样缩放。有三种选择：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
@@ -147,15 +174,6 @@
      这个属性只有在 synchronous 为 true 时有效。
      normalizedCropRect：用于对原始尺寸的图像进行裁剪，基于比例坐标。只在 resizeMode 为 Exact 时有效。
      */
-    __weak ZFPhotoViewController *ws = self;
-    [assets enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self.dataArr addObject:obj];
-    }];
-    
-    UIImage *cameraImage = [UIImage imageNamed:[@"ZFPhotoBundle.bundle" stringByAppendingPathComponent:@"AssetsCamera.png"]];
-    [cameraImage resizableImageWithCapInsets:UIEdgeInsetsMake(1, 1, 1, 1)];
-    [self.dataArr addObject:cameraImage];
-    [self.collectionView reloadData];
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -207,8 +225,8 @@
     }else{
         PHAsset *asset = (PHAsset *)data;
     }
-    
 }
+
 
 ///外部传入 是否选中状态
 -(void)setSelectItems:(NSArray<PHAsset *> *)selectItems{
@@ -245,6 +263,40 @@
     }];
 }
 
+#pragma mark - 添加插入移动删除图片事 调用
+// This callback is invoked on an arbitrary serial queue. If you need this to be handled on a specific queue, you should redispatch appropriately
+- (void)photoLibraryDidChange:(PHChange *)changeInstance{
+    // Photos may call this method on a background queue;
+    // switch to the main queue to update the UI.
+    //深拷贝，备份比较
+    NSMutableArray *updatedSectionFetchResults = [self.sectionResults mutableCopy];
+    __block BOOL reloadRequired = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+//        PHFetchResult *rootCollectionsFetchResult = [PHCollection fetchTopLevelUserCollectionsWithOptions:nil];
+        [self.sectionResults enumerateObjectsUsingBlock:^(PHFetchResult * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSLog(@"----%ld",obj.count);
+            
+            //根据原先的相片集的数据创建变化对象
+            PHFetchResultChangeDetails *changeDetails = [changeInstance changeDetailsForFetchResult:obj];
+             //判断变化对象是否为空，不为空则代表有相册有变化
+            if(changeDetails != nil){
+                NSLog(@"%@",changeDetails.fetchResultAfterChanges);
+                NSLog(@"---------");
+                //变化后的数据替换变化前的数据
+                [updatedSectionFetchResults replaceObjectAtIndex:idx withObject:[changeDetails fetchResultAfterChanges]];
+                reloadRequired = YES;
+            }
+        }];
+        if (reloadRequired) {
+            //刷新数据
+            self.sectionResults = updatedSectionFetchResults;
+            [self zf_getFirstData];
+        }
+    });
+}
+
+
+
 #pragma mark ----
 -(UIView *)contentView{
     if (_contentView == nil) {
@@ -272,6 +324,13 @@
     }
     return _selectedAssetsDic;
 }
+-(NSMutableArray <PHFetchResult *> *)sectionResults{
+    if(_sectionResults == nil){
+        _sectionResults = [NSMutableArray array];
+    }
+    return _sectionResults;
+}
+
 
 #pragma mark  --- 相册获取参考数据
 //获取自定义相册簿 （自己创建的相册）
@@ -303,6 +362,21 @@
  case SmartAlbumUserLibrary //这个命名最神奇了，就是相机相册，所有相机拍摄的照片或视频都会出现在该相册中，而且使用其他应用保存的照片也会出现在这里。
  case Any //包含所有类型
  }
+ 
+ 
+ (2).资源的子类型.
+ mediaSubtypes:PHAssetMediaSubtype类型的枚举值:
+ PHAssetMediaSubtypeNone               没有任何子类型
+ 相片子类型
+ PHAssetMediaSubtypePhotoPanorama      全景图
+ PHAssetMediaSubtypePhotoHDR           滤镜图
+ PHAssetMediaSubtypePhotoScreenshot 截屏图
+ PHAssetMediaSubtypePhotoLive 1.5s 的 photoLive
+ 视屏子类型
+ PHAssetMediaSubtypeVideoStreamed      流体
+ PHAssetMediaSubtypeVideoHighFrameRate 高帧视屏
+ PHAssetMediaSubtypeVideoTimelapse   延时拍摄视频
+ 
  */
 
 
@@ -322,6 +396,8 @@
  */
 
 -(void)dealloc{
+    //销毁观察相册变化的观察者
+    [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
     NSLog(@"销毁 %s",__FUNCTION__);
 }
 

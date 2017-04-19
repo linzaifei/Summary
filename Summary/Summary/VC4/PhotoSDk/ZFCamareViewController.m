@@ -113,9 +113,7 @@
     _downImageView.translatesAutoresizingMaskIntoConstraints = NO;
     _downImageView.backgroundColor = [UIColor whiteColor];
     [self.view insertSubview:_downImageView belowSubview:takePhotoHeadView];
-    
 
-    
     __weak ZFCamareViewController *ws = self;
     camareHeadView.cancelBlock = ^(){
         [ws backAction];
@@ -356,14 +354,10 @@ kCMAttachmentMode_ShouldPropagate);
 }
 
 -(void)savePhoto {
-   
-    
-    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
-    
+    [self backAction];
     __weak ZFCamareViewController *ws = self;
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         PHAssetChangeRequest *request = [PHAssetChangeRequest creationRequestForAssetFromImage:ws.image];
-        
         PHObjectPlaceholder *assetPlaceholder = request.placeholderForCreatedAsset;
         
         PHAssetCollectionChangeRequest *collectRequest = [[PHAssetCollectionChangeRequest alloc] init];
@@ -374,71 +368,7 @@ kCMAttachmentMode_ShouldPropagate);
            
         }
     }];
-}
-// This callback is invoked on an arbitrary serial queue. If you need this to be handled on a specific queue, you should redispatch appropriately
-- (void)photoLibraryDidChange:(PHChange *)changeInstance{
-    // Photos may call this method on a background queue;
-    // switch to the main queue to update the UI.
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-     PHFetchResult *rootCollectionsFetchResult = [PHCollection fetchTopLevelUserCollectionsWithOptions:nil];
-
-        PHFetchResultChangeDetails *changeDetails = [changeInstance changeDetailsForFetchResult:rootCollectionsFetchResult];
-        
-        if(!changeDetails.hasIncrementalChanges){
-            
-            NSLog(@"%@",changeDetails.fetchResultAfterChanges);
-            NSLog(@"---------");
-            
-            
-        }
-        
-        
-        // Check for changes to the displayed album itself
-//        // (its existence and metadata, not its member assets).
-//        PHObjectChangeDetails *albumChanges = [changeInstance changeDetailsForObject:self.displayedAlbum];
-//        if (albumChanges) {
-//            // Fetch the new album and update the UI accordingly.
-//            self.displayedAlbum = [albumChanges objectAfterChanges];
-//        }
-//        
-//        // Check for changes to the list of assets (insertions, deletions, moves, or updates).
-//        PHFetchResultChangeDetails *collectionChanges = [changeInstance changeDetailsForFetchResult:self.albumContents];
-//        if (collectionChanges) {
-//            // Get the new fetch result for future change tracking.
-//            self.albumContents = collectionChanges.fetchResultAfterChanges;
-//            
-//            if (collectionChanges.hasIncrementalChanges)  {
-//                // Tell the collection view to animate insertions/deletions/moves
-//                // and to refresh any cells that have changed content.
-//                [self.collectionView performBatchUpdates:^{
-//                    NSIndexSet *removed = collectionChanges.removedIndexes;
-//                    if (removed.count) {
-//                        [self.collectionView deleteItemsAtIndexPaths:[self indexPathsFromIndexSet:removed]];
-//                    }
-//                    NSIndexSet *inserted = collectionChanges.insertedIndexes;
-//                    if (inserted.count) {
-//                        [self.collectionView insertItemsAtIndexPaths:[self indexPathsFromIndexSet:inserted]];
-//                    }
-//                    NSIndexSet *changed = collectionChanges.changedIndexes;
-//                    if (changed.count) {
-//                        [self.collectionView reloadItemsAtIndexPaths:[self indexPathsFromIndexSet:changed]];
-//                    }
-//                    if (collectionChanges.hasMoves) {
-//                        [collectionChanges enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
-//                            NSIndexPath *fromIndexPath = [NSIndexPath indexPathForItem:fromIndex inSection:0];
-//                            NSIndexPath *toIndexPath = [NSIndexPath indexPathForItem:toIndex inSection:0];
-//                            [self.collectionView moveItemAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
-//                        }];
-//                    }
-//                } completion:nil];
-//            } else {
-//                // Detailed change information is not available;
-//                // repopulate the UI from the current fetch result.
-//                [self.collectionView reloadData];
-//            }
-//        }
-    });
+    
 }
 
 //缩放手势 用于调整焦距

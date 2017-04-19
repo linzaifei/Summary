@@ -27,6 +27,8 @@
 -(void)setUI{
     self.imageView = [UIImageView new];
     self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.imageView.clipsToBounds = YES;
     [self.contentView addSubview:self.imageView];
     
     self.selectBtn = [ZFBtn new];
