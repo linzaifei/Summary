@@ -11,17 +11,17 @@
 @protocol ZFPhotoPickerViewControllerDelegate;
 @interface ZFPhotoViewController : UIViewController
 /*!
- * 排显示数目 默认 3
+ * 排显示数目 默认 3 (3 - 5)
  */
 @property(assign,nonatomic)NSInteger columnCount;
 
 /*!
- *  列间距，默认是5
+ *  列间距，默认是1
  */
 @property(assign,nonatomic)NSInteger columnSpacing;
 
 /*!
- * 行间距，默认是5
+ * 行间距，默认是1
  */
 @property(assign,nonatomic)NSInteger rowSpacing;
 
