@@ -83,9 +83,9 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initAVCaptureSession];
-    [self Setting];
-    [self setUpGesture];
+    [self zf_initAVCaptureSession];
+    [self zf_setting];
+    [self zf_setUpGesture];
     isUsingFrontFacingCamera = NO;
     self.effectiveScale = self.beginGestureScale = 1.0f;
 }
@@ -94,7 +94,7 @@
 }
 
 #pragma mark - 初始化设置
--(void)Setting{
+-(void)zf_setting{
     ZFCamareHeadView *camareHeadView = [ZFCamareHeadView new];
     camareHeadView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:camareHeadView];
@@ -116,23 +116,23 @@
 
     __weak ZFCamareViewController *ws = self;
     camareHeadView.cancelBlock = ^(){
-        [ws backAction];
+        [ws zf_backAction];
     };
     camareHeadView.flashBlock = ^(UIButton *changeBtn){
-        [ws AutoFlash:changeBtn];
+        [ws zf_AutoFlash:changeBtn];
     };
     camareHeadView.changeBlock = ^(){
-        [ws cancel];
-        [ws chageCamera];
+        [ws zf_cancel];
+        [ws zf_chageCamera];
     };
     takePhotoHeadView.takePhotoBlock = ^{
-        [ws TakePhotoAction];
+        [ws zf_TakePhotoAction];
     };
     takePhotoHeadView.cancelBlock = ^(){
-        [ws cancel];
+        [ws zf_cancel];
     };
     takePhotoHeadView.chooseBlock = ^(){
-        [ws savePhoto];
+        [ws zf_savePhoto];
     };
     ///------------布局--------
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[camareHeadView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(camareHeadView)]];
@@ -151,7 +151,7 @@
 }
 
 #pragma mark private method
-- (void)initAVCaptureSession{
+- (void)zf_initAVCaptureSession{
     self.session = [[AVCaptureSession alloc] init];
     NSError *error;
     /*!
@@ -207,7 +207,7 @@
 }
 
 #pragma 创建手势
-- (void)setUpGesture{
+- (void)zf_setUpGesture{
     UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     pinch.delegate = self;
     [self.backView addGestureRecognizer:pinch];
@@ -224,7 +224,7 @@
 /*!
  *  开启关闭闪光灯
  */
--(void)AutoFlash:(UIButton *)sender{
+-(void)zf_AutoFlash:(UIButton *)sender{
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     //修改前必须先锁定
     [device lockForConfiguration:nil];
@@ -249,7 +249,7 @@
 /*!
  *  却换前后摄像头
  */
--(void)chageCamera {
+-(void)zf_chageCamera {
     NSUInteger cameraCount = [[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo] count];
     if (cameraCount > 1) {
         NSError *error;
@@ -296,7 +296,7 @@
 /*!
  *  拍照
  */
--(void)TakePhotoAction{
+-(void)zf_TakePhotoAction{
     AVCaptureConnection * videoConnection = [self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
     if (!videoConnection) {
         NSLog(@"take photo failed!");
@@ -334,7 +334,7 @@ kCMAttachmentMode_ShouldPropagate);
 }
 
 //取消选中
--(void)cancel {
+-(void)zf_cancel {
     if (self.imageView) {
         [self.imageView removeFromSuperview];
         self.imageView = nil;
@@ -342,19 +342,19 @@ kCMAttachmentMode_ShouldPropagate);
     [self.session startRunning];
 }
 //返回
--(void)backAction{
-    [self cancel];
+-(void)zf_backAction{
+    [self zf_cancel];
     [self zf_closeAnnimation];
-    [self performSelector:@selector(dey) withObject:self afterDelay:0.5];
+    [self performSelector:@selector(zf_dey) withObject:self afterDelay:0.5];
 }
--(void)dey{
+-(void)zf_dey{
     if (self.backBlock) {
         self.backBlock();
     }
 }
 
--(void)savePhoto {
-    [self backAction];
+-(void)zf_savePhoto {
+    [self zf_backAction];
     __weak ZFCamareViewController *ws = self;
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         PHAssetChangeRequest *request = [PHAssetChangeRequest creationRequestForAssetFromImage:ws.image];
