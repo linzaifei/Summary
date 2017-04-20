@@ -52,6 +52,7 @@
     
     [backBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
     [chooseBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [_titleBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
     backBtn.tag = 300;
     chooseBtn.tag = 301;
     _titleBtn.tag = 302;

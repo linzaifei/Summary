@@ -12,7 +12,7 @@
 #import "ZFPhotoCollectionViewCell.h"
 #import "RemindView.h"
 #import "ZFCamareViewController.h"
-
+#import "ZFPopShowPhotoViewController.h"
 
 //设备屏幕尺寸
 #define kScreenHeight   [UIScreen mainScreen].bounds.size.height
@@ -26,7 +26,7 @@
 @property(strong,nonatomic)UIView *contentView;
 //存储所有照片
 @property (nonatomic, strong) NSMutableArray <PHFetchResult *>*sectionResults;
-
+@property (nonatomic, strong) NSMutableArray *sectionCollectResults;
 
 @end
 
@@ -34,9 +34,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addChildrenView];
-    [self setUI];
-    [self loadData];
+    [self zf_addChildrenView];
+    [self zf_setUI];
+    [self zf_loadData];
 }
 -(instancetype)init{
     if (self = [super init]) {
@@ -49,18 +49,18 @@
     return self;
 }
 
--(void)addChildrenView{
+-(void)zf_addChildrenView{
     _camareViewController = [[ZFCamareViewController alloc] init];
     _camareViewController.view.frame = CGRectMake(0, -kScreenHeight, kScreenWidth,kScreenHeight);
     [self addChildViewController:_camareViewController];
     [self.view addSubview:self.contentView];
     __weak ZFPhotoViewController *ws = self;
     _camareViewController.backBlock = ^{
-        [ws backToFirstPageAnimation];
+        [ws zf_backToFirstPageAnimation];
     };
 }
 
--(void)setUI{
+-(void)zf_setUI{
     if(self.columnCount > 5 || self.columnCount < 3){
         self.columnCount = 3;
     }
@@ -104,7 +104,7 @@
     };
     //点击标题
     photoHeadView.titleBlock = ^(){
-
+        [ws zf_showPhotoViewController];
     };
     
 ///-------布局
@@ -113,44 +113,69 @@
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[photoHeadView(==64)]-0-[_collectionView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(photoHeadView,_collectionView)]];
 }
 
--(void)loadData{
+//下来选择
+-(void)zf_showPhotoViewController{
+    ZFPopShowPhotoViewController *showViewController = [[ZFPopShowPhotoViewController alloc] init];
+    showViewController.dataArr = self.sectionCollectResults;
+    __weak ZFPhotoViewController *ws = self;
+    showViewController.didSelectBlock = ^(NSArray *dataArr, NSInteger index) {
+        [ws zf_getFirstData:ws.sectionResults[index] WithAdd:NO];
+        if (index == 0) { //这个地方还需要优化 默认第一个就是相机相册的！
+            [ws zf_addCamareImage];
+        }
+        [ws.collectionView reloadData];
+    };
+    [self presentViewController:showViewController animated:YES completion:NULL];
+}
+
+-(void)zf_loadData{
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
-    
     // 获得相机胶卷
     PHAssetCollection *Libararys = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil].lastObject;
     // 遍历相机胶卷,获取大图
-    [self enumerateAssetsInAssetCollection:Libararys original:YES];
+    [self zf_enumerateAssetsInAssetCollection:Libararys original:YES];
     
     PHFetchResult<PHAssetCollection *> *assetAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
     
     // 遍历所有的自定义相簿
     __weak ZFPhotoViewController *ws = self;
     [assetAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [ws enumerateAssetsInAssetCollection:obj original:YES];
+        [ws zf_enumerateAssetsInAssetCollection:obj original:YES];
     }];
 
     dispatch_group_leave(group);
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [ws zf_getFirstData];
+        [ws zf_getFirstData:[ws.sectionResults firstObject] WithAdd:NO];
+        [ws zf_addCamareImage];
+        [ws.collectionView reloadData];
     });
 }
 
--(void)zf_getFirstData{
+-(void)zf_getFirstData:(PHFetchResult *)assets WithAdd:(BOOL)isadd {
     [self.dataArr removeAllObjects];
-    PHFetchResult<PHAsset *> * assets = [self.sectionResults firstObject];
     __weak ZFPhotoViewController *ws = self;
     [assets enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        NSLog(@"%ld",obj.mediaSubtypes);
-//        NSLog(@"%ld",obj.mediaType);
+        if (isadd && idx == assets.count - 1) {
+          [ws.selectedAssetsDic setValue:obj forKey:obj.localIdentifier];
+            if (ws.seletedPhotos.count == 0) {
+                [ws.seletedPhotos addObject:obj];
+            }else{
+            [ws.seletedPhotos enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
+                if (![obj.localIdentifier isEqualToString:obj1.localIdentifier]) {
+                    [ws.seletedPhotos addObject:obj];
+                }
+            }];
+            }
+        }
         [ws.dataArr addObject:obj];
     }];
-    
+}
+
+-(void)zf_addCamareImage{
     UIImage *cameraImage = [UIImage imageNamed:[@"ZFPhotoBundle.bundle" stringByAppendingPathComponent:@"AssetsCamera.png"]];
     [cameraImage resizableImageWithCapInsets:UIEdgeInsetsMake(1, 1, 1, 1)];
     [self.dataArr addObject:cameraImage];
-    [self.collectionView reloadData];
-
 }
 
 
@@ -161,10 +186,10 @@
  @param original 是不是原始图片
  */
 
-- (void)enumerateAssetsInAssetCollection:(PHAssetCollection *)assetCollection original:(BOOL)original{
+- (void)zf_enumerateAssetsInAssetCollection:(PHAssetCollection *)assetCollection original:(BOOL)original{
     //相簿名
     NSLog(@"title = %@",assetCollection.localizedTitle);
-    
+    [self.sectionCollectResults addObject:assetCollection];
     // 获得某个相簿中的所有PHAsset对象
     PHFetchResult<PHAsset *> * assets = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
     [self.sectionResults addObject:assets];
@@ -222,13 +247,12 @@
     NSInteger index = self.dataArr.count - indexPath.item - 1;
     id data = self.dataArr[index];
     if ([data isKindOfClass:[UIImage class]]) {
-        [self goToDetailAnimation];
+        [self zf_goToDetailAnimation];
         
     }else{
         PHAsset *asset = (PHAsset *)data;
     }
 }
-
 
 ///外部传入 是否选中状态
 -(void)setSelectItems:(NSArray<PHAsset *> *)selectItems{
@@ -241,7 +265,7 @@
 }
 
 // 进入相机的动画
-- (void)goToDetailAnimation{
+- (void)zf_goToDetailAnimation{
     if (self.view.subviews.count < 2) {
         [self.view addSubview:_camareViewController.view];
     }
@@ -254,9 +278,8 @@
     }];
 }
 // 返回第一个界面的动画
-- (void)backToFirstPageAnimation {
+- (void)zf_backToFirstPageAnimation {
      __weak ZFPhotoViewController *ws = self;
-    
     [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
         ws.camareViewController.view.frame = CGRectMake(0,-kScreenHeight, kScreenWidth, kScreenHeight);
         ws.contentView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
@@ -292,7 +315,9 @@
         if (reloadRequired) {
             //刷新数据
             self.sectionResults = updatedSectionFetchResults;
-            [self zf_getFirstData];
+            [self zf_getFirstData:[self.sectionResults firstObject] WithAdd:YES];
+            [self zf_addCamareImage];
+            [self.collectionView reloadData];
         }
     });
 }
@@ -332,7 +357,12 @@
     }
     return _sectionResults;
 }
-
+- (NSMutableArray *)sectionCollectResults {
+    if (_sectionCollectResults == nil) {
+        _sectionCollectResults = [NSMutableArray array];
+    }
+    return _sectionCollectResults;
+}
 
 #pragma mark  --- 相册获取参考数据
 //获取自定义相册簿 （自己创建的相册）
