@@ -9,7 +9,8 @@
 #import "ZFPopShowPhotoViewController.h"
 #import "ZFPersentTransition.h"
 #import <Photos/Photos.h>
-
+#import "ZFPhotoTableViewCell.h"
+#import "ZFPhotoPresentationVC.h"
 @interface ZFPopShowPhotoViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(strong,nonatomic)ZFPersentTransition *persentTransition;
 @end
@@ -41,26 +42,25 @@
     return self;
 }
 
-
-
 -(void)zf_setUI{
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
     [self.view addSubview:tableView];
-    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
+    [tableView registerClass:[ZFPhotoTableViewCell class] forCellReuseIdentifier:NSStringFromClass([ZFPhotoTableViewCell class])];
     tableView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[tableView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(tableView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[tableView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(tableView)]];
+    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.dataArr.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
-    PHAssetCollection *collection = self.dataArr[indexPath.row];
-    cell.textLabel.text = collection.localizedTitle;
+    ZFPhotoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ZFPhotoTableViewCell class])];
+    PHAssetCollection *assetCollection = self.dataArr[indexPath.row];
+    cell.assetCollection = assetCollection;
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -70,6 +70,9 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 60;
+}
 
 -(ZFPersentTransition *)persentTransition{
     if (_persentTransition == nil) {

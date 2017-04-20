@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ZFPhotoPresentationVC : UIPresentationController
-
+@property(assign,nonatomic)CGFloat height;
 @end

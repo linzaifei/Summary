@@ -10,9 +10,10 @@
 #import <Photos/Photos.h>
 #import <PhotosUI/PhotosUI.h>
 #import "ZFBtn.h"
-@interface ZFPhotoCollectionViewCell()
+@interface ZFPhotoCollectionViewCell()<PHLivePhotoViewDelegate>
 @property(strong,nonatomic)UIImageView *imageView;
 @property(strong,nonatomic)UIImageView *liveImageView;
+@property(strong,nonatomic)PHLivePhotoView *livePhotoView;
 
 @property(strong,nonatomic)ZFBtn *selectBtn;
 @property(strong,nonatomic)PHAsset *asset;
@@ -34,6 +35,14 @@
     self.imageView.clipsToBounds = YES;
     [self.contentView addSubview:self.imageView];
     
+    
+    self.livePhotoView = [PHLivePhotoView new];
+    self.livePhotoView.delegate =self;
+    self.livePhotoView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.livePhotoView.contentMode = UIViewContentModeScaleAspectFill;
+    self.livePhotoView.clipsToBounds = YES;
+    [self.contentView addSubview:self.livePhotoView];
+    
     self.liveImageView = [UIImageView new];
     self.liveImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.liveImageView];
@@ -46,6 +55,10 @@
     [self.selectBtn setImage:[UIImage imageNamed:[@"ZFPhotoBundle.bundle" stringByAppendingPathComponent:@"Asset_checked.png"]] forState:UIControlStateSelected];
     [self.selectBtn addTarget:self action:@selector(clickCollect:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.selectBtn];
+    
+    
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_livePhotoView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_livePhotoView)]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[_livePhotoView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_livePhotoView)]];
     
 
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[_imageView]-0-|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(_imageView)]];
@@ -77,13 +90,20 @@
         // 如果是Live图片增加一个标记
         if (self.asset.mediaSubtypes & PHAssetMediaSubtypePhotoLive) {
             self.liveImageView.hidden = NO;
+            self.imageView.hidden = YES;
+            self.livePhotoView.hidden = NO;
             UIImage *badge = [PHLivePhotoView livePhotoBadgeImageWithOptions:PHLivePhotoBadgeOptionsOverContent];
             self.liveImageView.image = badge;
+            
+            [self zf_playLivePhoto];
+
         }else{
             self.liveImageView.hidden = YES;
+            self.livePhotoView.hidden = YES;
+            self.imageView.hidden = NO;
         }
         
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+        
        /*
         //会缓存在内存中
         [[PHCachingImageManager defaultManager] requestImageForAsset:self.asset targetSize:size contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
@@ -99,12 +119,42 @@
     }
 }
 
+//加载live视图
+-(void)zf_playLivePhoto{
+    if (self.asset.mediaSubtypes == PHAssetMediaSubtypePhotoLive) {
+        PHLivePhotoRequestOptions *option = [[PHLivePhotoRequestOptions alloc] init];
+        option.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+        option.networkAccessAllowed = YES;
+        option.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+            NSLog(@"%f",progress);
+        };
+        __weak ZFPhotoCollectionViewCell *ws = self;
+        [[PHImageManager defaultManager] requestLivePhotoForAsset:self.asset targetSize:CGSizeMake(200, 200) contentMode:PHImageContentModeDefault options:option resultHandler:^(PHLivePhoto * _Nullable livePhoto, NSDictionary * _Nullable info) {
+            ws.livePhotoView.livePhoto = livePhoto;
+        }];
+    }
+}
+
+
+- (void)livePhotoView:(PHLivePhotoView *)livePhotoView willBeginPlaybackWithStyle:(PHLivePhotoViewPlaybackStyle)playbackStyle{
+    NSLog(@"开始");
+}
+
+- (void)livePhotoView:(PHLivePhotoView *)livePhotoView didEndPlaybackWithStyle:(PHLivePhotoViewPlaybackStyle)playbackStyle{
+    NSLog(@"结束");
+}
+
 -(void)setIsSelect:(BOOL)isSelect{
     self.selectBtn.selected = isSelect;
+   
 }
 
 -(void)clickCollect:(ZFBtn *)btn{
-//    btn.selected = !btn.selected;
+    if (!btn.selected) {
+        if (self.asset.mediaSubtypes == PHAssetMediaSubtypePhotoLive) {
+            [self.livePhotoView startPlaybackWithStyle:PHLivePhotoViewPlaybackStyleFull];
+        }
+    }
     if (self.btnSelectBlock) {
         self.btnSelectBlock(self.asset, btn.selected);
     }

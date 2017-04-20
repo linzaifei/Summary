@@ -98,6 +98,10 @@
     };
     //点击选中
     photoHeadView.chooseBlock = ^(){
+        if (ws.view.subviews.count > 1) {
+            [ws.camareViewController.view removeFromSuperview];
+            ws.camareViewController.view = nil;
+        }
         if ([ws.delegate respondsToSelector:@selector(photoPickerViewController:didSelectPhotos:)]) {
             [ws.delegate photoPickerViewController:ws didSelectPhotos:[ws.seletedPhotos copy]];
         }
@@ -124,6 +128,8 @@
             [ws zf_addCamareImage];
         }
         [ws.collectionView reloadData];
+        NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:0];
+        [ws.collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
     };
     [self presentViewController:showViewController animated:YES completion:NULL];
 }
@@ -158,18 +164,24 @@
     [assets enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (isadd && idx == assets.count - 1) {
           [ws.selectedAssetsDic setValue:obj forKey:obj.localIdentifier];
-            if (ws.seletedPhotos.count == 0) {
-                [ws.seletedPhotos addObject:obj];
-            }else{
-            [ws.seletedPhotos enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
-                if (![obj.localIdentifier isEqualToString:obj1.localIdentifier]) {
-                    [ws.seletedPhotos addObject:obj];
-                }
-            }];
-            }
         }
         [ws.dataArr addObject:obj];
     }];
+   
+    [self.selectedAssetsDic enumerateKeysAndObjectsUsingBlock:^(NSString *key, PHAsset * _Nonnull obj, BOOL * _Nonnull stop) {
+        if (ws.seletedPhotos.count == 0) {
+            [ws.seletedPhotos addObject:obj];
+        }else if (ws.seletedPhotos.count < ws.selectedAssetsDic.count) {
+            [ws.seletedPhotos enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
+                if (![key isEqualToString:obj1.localIdentifier]) {
+                    [ws.seletedPhotos addObject:obj];
+                }
+            }];
+        }else{
+            *stop = YES;
+        }
+    }];
+
 }
 
 -(void)zf_addCamareImage{
@@ -296,9 +308,10 @@
     //深拷贝，备份比较
     NSMutableArray *updatedSectionFetchResults = [self.sectionResults mutableCopy];
     __block BOOL reloadRequired = NO;
+    __weak ZFPhotoViewController *ws = self;
     dispatch_async(dispatch_get_main_queue(), ^{
 //        PHFetchResult *rootCollectionsFetchResult = [PHCollection fetchTopLevelUserCollectionsWithOptions:nil];
-        [self.sectionResults enumerateObjectsUsingBlock:^(PHFetchResult * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [ws.sectionResults enumerateObjectsUsingBlock:^(PHFetchResult * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSLog(@"----%ld",obj.count);
             
             //根据原先的相片集的数据创建变化对象
@@ -314,10 +327,10 @@
         }];
         if (reloadRequired) {
             //刷新数据
-            self.sectionResults = updatedSectionFetchResults;
-            [self zf_getFirstData:[self.sectionResults firstObject] WithAdd:YES];
-            [self zf_addCamareImage];
-            [self.collectionView reloadData];
+            ws.sectionResults = updatedSectionFetchResults;
+            [ws zf_getFirstData:[ws.sectionResults firstObject] WithAdd:YES];
+            [ws zf_addCamareImage];
+            [ws.collectionView reloadData];
         }
     });
 }
@@ -430,6 +443,7 @@
 -(void)dealloc{
     //销毁观察相册变化的观察者
     [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
+//    [[PHPhotoLibrary sharedPhotoLibrary] removeObserver:<#(nonnull NSObject *)#> forKeyPath:<#(nonnull NSString *)#>]
     NSLog(@"销毁 %s",__FUNCTION__);
 }
 

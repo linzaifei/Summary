@@ -11,6 +11,6 @@
 @interface ZFPopShowPhotoViewController : UIViewController
 
 @property(strong,nonatomic)NSArray *dataArr;
-
 @property(copy,nonatomic)void(^didSelectBlock)(NSArray *dataArr,NSInteger index);
+
 @end

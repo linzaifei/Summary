@@ -48,13 +48,12 @@ static NSString  *ZFCustomTransitionDismess = @"ZFCustomTransitionDismess";
     //    NSLog(@"%@",[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey]);
     
     if (self.ispresenting) {
-        //        ZFShowViewController *showVC =  [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
         UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];
         [transitionContext.containerView addSubview:toView];
         toView.transform = CGAffineTransformMakeScale(1.0, 0.0);
         toView.layer.anchorPoint = CGPointMake(0.5, 0);
-        
-        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:5.0f initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionCurveLinear animations:^{
+
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:3 options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionCurveLinear animations:^{
             toView.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
             if (finished) {
@@ -65,14 +64,15 @@ static NSString  *ZFCustomTransitionDismess = @"ZFCustomTransitionDismess";
         UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
         // 添加一个动画，让要消失的 view 向下移动，离开屏幕
                 fromView.transform = CGAffineTransformIdentity;
-                [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:5.0f initialSpringVelocity:0.5 options: UIViewAnimationOptionCurveEaseInOut animations:^{
+                [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:5.0f initialSpringVelocity:3 options: UIViewAnimationOptionTransitionFlipFromBottom | UIViewAnimationOptionCurveLinear animations:^{
                 fromView.transform = CGAffineTransformMakeScale(1.0, 0.00001);
                 } completion:^(BOOL finished) {
                     if (finished) {
                         [transitionContext completeTransition:YES];
                     }
-                }];
+            }];
     }
+
 }
 
 @end

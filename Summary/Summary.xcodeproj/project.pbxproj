@@ -48,6 +48,7 @@
 		E08039A01EA4508800066E7F /* ZFShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E08039991EA4508800066E7F /* ZFShowViewController.m */; };
 		E08039A11EA4508800066E7F /* ZFPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E080399C1EA4508800066E7F /* ZFPopViewController.m */; };
 		E08039A41EA450A600066E7F /* ZFShowPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E08039A31EA450A600066E7F /* ZFShowPopViewController.m */; };
+		E08927651EA84563009DD4EE /* ZFPhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E08927641EA84563009DD4EE /* ZFPhotoTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +152,8 @@
 		E080399C1EA4508800066E7F /* ZFPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopViewController.m; sourceTree = "<group>"; };
 		E08039A21EA450A600066E7F /* ZFShowPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFShowPopViewController.h; sourceTree = "<group>"; };
 		E08039A31EA450A600066E7F /* ZFShowPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFShowPopViewController.m; sourceTree = "<group>"; };
+		E08927631EA84563009DD4EE /* ZFPhotoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPhotoTableViewCell.h; sourceTree = "<group>"; };
+		E08927641EA84563009DD4EE /* ZFPhotoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPhotoTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -322,6 +325,8 @@
 				E012D3A91E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m */,
 				E012D3A31E9E233300F2ADF0 /* ZFPhotoHeadView.h */,
 				E012D3A41E9E233400F2ADF0 /* ZFPhotoHeadView.m */,
+				E08927631EA84563009DD4EE /* ZFPhotoTableViewCell.h */,
+				E08927641EA84563009DD4EE /* ZFPhotoTableViewCell.m */,
 				E010AF9D1E9F1CBC00C09A0F /* ZFBtn.h */,
 				E010AF9E1E9F1CBC00C09A0F /* ZFBtn.m */,
 			);
@@ -751,6 +756,7 @@
 				E012D3A51E9E233400F2ADF0 /* ZFPhotoHeadView.m in Sources */,
 				E010AFA51E9F57D700C09A0F /* ZFSelectPublishCell.m in Sources */,
 				E066B7E51E9CA3FE001667F7 /* ZFCollectionWaterFallViewController.m in Sources */,
+				E08927651EA84563009DD4EE /* ZFPhotoTableViewCell.m in Sources */,
 				E012D3AA1E9E2B0300F2ADF0 /* ZFPhotoCollectionViewCell.m in Sources */,
 				E080399E1EA4508800066E7F /* CustomTransition.m in Sources */,
 				E08039A41EA450A600066E7F /* ZFShowPopViewController.m in Sources */,
