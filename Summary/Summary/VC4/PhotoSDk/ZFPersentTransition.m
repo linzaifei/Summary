@@ -74,5 +74,7 @@ static NSString  *ZFCustomTransitionDismess = @"ZFCustomTransitionDismess";
     }
 
 }
-
+-(void)dealloc{
+    NSLog(@"销毁--%s",__FUNCTION__);
+}
 @end

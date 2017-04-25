@@ -75,5 +75,8 @@
     [self.presentedViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
+-(void)dealloc{
+    NSLog(@"销毁--%s",__FUNCTION__);
+}
 
 @end

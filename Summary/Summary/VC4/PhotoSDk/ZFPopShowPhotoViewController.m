@@ -81,7 +81,9 @@
     return _persentTransition;
 }
 
-
+-(void)dealloc{
+    NSLog(@"销毁--%s",__FUNCTION__);
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

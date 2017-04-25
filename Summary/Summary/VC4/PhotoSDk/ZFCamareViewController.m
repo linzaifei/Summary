@@ -15,7 +15,7 @@
 #define bottom_height 130 //微博距离
 #define top_height 64 //顶部距离
 
-@interface ZFCamareViewController ()<UIGestureRecognizerDelegate,PHPhotoLibraryChangeObserver>
+@interface ZFCamareViewController ()<UIGestureRecognizerDelegate>
 
 //AVFoundation
 

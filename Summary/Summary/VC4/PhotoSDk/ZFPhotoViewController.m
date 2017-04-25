@@ -443,7 +443,7 @@
 -(void)dealloc{
     //销毁观察相册变化的观察者
     [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
-//    [[PHPhotoLibrary sharedPhotoLibrary] removeObserver:<#(nonnull NSObject *)#> forKeyPath:<#(nonnull NSString *)#>]
+    
     NSLog(@"销毁 %s",__FUNCTION__);
 }
 
